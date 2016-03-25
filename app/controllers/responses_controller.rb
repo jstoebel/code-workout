@@ -3,6 +3,7 @@ class ResponsesController < ApplicationController
   end
 
   def show
+    @response = Response.find(params[:id])
   end
 
   def new
@@ -18,8 +19,13 @@ class ResponsesController < ApplicationController
   end
 
   def delete
+    @response = Response.find(params[:response_id])
   end
 
   def destroy
+    @response = Response.find(params[:id])
+    @response.destroy
+    redirect_to questions_path(@response.question_id)
+    flash[:success] = "You have successfully deleted the response"    
   end
 end

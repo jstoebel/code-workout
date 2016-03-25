@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @question = Question.find(params[:id])
   end
 
   def new
@@ -18,8 +19,13 @@ class QuestionsController < ApplicationController
   end
 
   def delete
+    @question = Question.find(params[:question_id])
   end
 
   def destroy
+    @question = Question.find(params[:id])
+    @question.destroy
+    redirect_to questions_path
+    flash[:success] = "You have successfully deleted the question"    
   end
 end
