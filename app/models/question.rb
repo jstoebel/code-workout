@@ -1,11 +1,7 @@
 class Question < ActiveRecord::Base
-<<<<<<< HEAD
-    has_many :responses, :dependent => :delete_all
-=======
-
     #ASSOCIATIONS
-    has_many :responses
->>>>>>> origin
+    
+    has_many :responses, :dependent => :delete_all
     belongs_to :user
     belongs_to :exercise
 
