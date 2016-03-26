@@ -7,7 +7,6 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @responses = Response.all.where(question_id: params[:id])
     @response = Response.new
->>>>>>> origin
   end
 
   def new

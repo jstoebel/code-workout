@@ -4,7 +4,6 @@ class ResponsesController < ApplicationController
 
   def show
 	@response = Response.find(params[:id])
->>>>>>> origin
   end
 
   def new

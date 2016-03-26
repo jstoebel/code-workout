@@ -1,17 +1,17 @@
-%h1 Questions#show
-%p Find me in app/views/questions/show.html.haml
 %h1
 	=@question.title
 %tr
 	- if @question.user_id != nil
 		%td 
 			=@question.user_id
+	%p 	
+		=@question.body
+	%p= "Posted: #{@question.created_at}" 
 	%td= link_to "Edit", edit_question_path(@question)
-	%td= form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
-		= submit_tag('Delete')	
-%p 	
-	=@question.body
-%p= "Posted: #{@question.created_at}" 
+	%td
+		= form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
+			= submit_tag('Delete')	
+
 - if @question.tags != nil	
 	%p
 		=@question.tags
