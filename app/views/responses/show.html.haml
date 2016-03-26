@@ -1,4 +1,9 @@
 %h1 Responses#show
 %p Find me in app/views/responses/show.html.haml
-= form_for @response, url: response_path(@response.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
-	= submit_tag('Delete')
+%tr
+	%td= link_to "Edit", edit_response_path(@response)
+	%td= form_for @response, url: response_path(@response.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
+		= submit_tag('Delete')
+%p= @response.text
+%p= @response.user_id
+%p= @response.created_at
