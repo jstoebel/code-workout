@@ -1,2 +1,20 @@
-%h1 Questions#index
-%p Find me in app/views/questions/index.html.haml
+%h1 List of Questions
+-if @questions.size == 0
+	%em = No Questions Found
+-else
+	%table
+		%r
+			%th Title: 
+			%th User:
+			%th Posted:
+		- @questions.each do |question|
+			%tr
+				%td= link_to question.title, question
+				%td= question.user_id
+				%td= question.created_at
+				%td= link_to "Edit", edit_question_path(question)
+				%td
+					= form_for question, url: question_path(question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
+						= submit_tag('Delete')
+
+ 

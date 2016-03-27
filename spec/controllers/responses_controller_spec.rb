@@ -23,11 +23,15 @@ RSpec.describe ResponsesController, :type => :controller do
     end
   end
 
-  describe "GET create" do
-    it "returns http success" do
+  describe "POST create success" do
+    it "redirects to index" do
       get :create
       expect(response).to have_http_status(:success)
     end
+  end
+
+  describe "POST create fail" do
+    it "ret"
   end
 
   describe "GET edit" do
