@@ -7,10 +7,10 @@ RSpec.describe QuestionsController, :type => :controller do
     FactoryGirl.create :confirmed_user, {:email => "test@test.com"}
     FactoryGirl.create :question
   end
-  # let(:valid_attributes) { { 
-  #   title: "question title",
-  #   body: "question body"
-  #  } }
+  let(:valid_attributes) { { 
+    title: "question title",
+    body: "question body"
+   } }
 
 
   describe "GET index" do
@@ -33,7 +33,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
   describe "GET show" do
     it "returns http success" do
-      get :show {:id => 1}
+      get :show, {:id => 1}
       expect(response).to have_http_status(:success)
     end
     
@@ -51,47 +51,117 @@ RSpec.describe QuestionsController, :type => :controller do
     it "makes a new record" do
       assigns(:question).should be_a_new(Question)
     end
+
+    it "renders the new view" do
+    end
   end
 
-  # describe "POST create" do
-  #   it "returns http success" do
-  #     question_params = FactoryGirl.attributes_for(:question)
-  #     expect {post(:create, 
-  #         {:question => question_params
-  #         }
-  #       ) 
-  #     }.to change(Question, :count).by(1)
-  #     expect(response).to have_http_status(:success)
+  describe "POST create success" do
+    it "redirects to index" do
+      question_params = FactoryGirl.attributes_for(:question)
+      expect {post(:create, 
+          {:question => question_params
+          }
+        ) 
+      }.to change(Question, :count).by(1)
+      expect(response).to have_http_status(:success) #FIX THIS! SHOULD REDIRECT!
+    end
 
-  #   end
-  # end
+    it "creates a new record"
+    end
 
-  # describe "GET edit" do
-  #   it "returns http success" do
-  #     get :edit
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
+    it "displays a flash message" do
+    end
+  end
 
-  # describe "GET update" do
-  #   it "returns http success" do
-  #     get :update
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
+  describe "POST create fail" do
+    
+    it "returns http success" do
+    end
 
-  # describe "GET delete" do
-  #   it "returns http success" do
-  #     get :delete
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
+    it "renders new form" do
+    end
 
-  # describe "GET destroy" do
-  #   it "returns http success" do
-  #     get :destroy
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
+    it "displays a flash message" do
+    end
+
+  end
+
+  describe "GET edit" do
+    it "returns http success" do
+      get :edit
+      expect(response).to have_http_status(:success)
+    end
+
+    it "pulls the right record" do
+    end
+
+    it "renders the edit view" do
+    end
+  end
+
+  describe "POST update success" do
+    it "redirects to index" do
+      get :update
+      expect(response).to have_http_status(:success)
+    end
+
+    it "updates the record" do
+    end
+
+    it "displays flash message" do
+    end
+  end
+
+  describe "POST update fail" do
+    it "returns http success" do
+    end
+
+    it "renders edit view" do
+    end
+
+    it "displays flash message" do
+    end
+  end
+
+  describe "GET delete" do
+    it "returns http success" do
+      get :delete
+      expect(response).to have_http_status(:success)
+    end
+
+    it "pulls the right record" do
+    end
+
+    it "renders the delete view" do
+    end
+
+  end
+
+  describe "POST destroy success" do
+    it "redirects to index" do
+      get :destroy
+      expect(response).to have_http_status(:success)
+    end
+
+    it "destroys a record" do
+    end
+
+    it "displays a flash message" do
+    end
+
+  end
+
+  describe "POST destroy fail" do
+    it "returns http success" do
+    end
+
+    it "renders the index view" do
+    end
+
+    it "displays a flash message" do
+    end
+  end
+>>>>>>> unit tests for questions controller
 
 end
