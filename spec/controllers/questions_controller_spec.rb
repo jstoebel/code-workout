@@ -7,10 +7,10 @@ RSpec.describe QuestionsController, :type => :controller do
     FactoryGirl.create :exercise
     FactoryGirl.create :question
   end
-  # let(:valid_attributes) { { 
-  #   title: "question title",
-  #   body: "question body"
-  #  } }
+  let(:valid_attributes) { { 
+    title: "question title",
+    body: "question body"
+   } }
 
   describe "GET index" do
     it "returns http success" do
@@ -32,7 +32,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
   describe "GET show" do
     it "returns http success" do
-      get :show {:id => 1}
+      get :show, {:id => 1}
       expect(response).to have_http_status(:success)
     end
     
@@ -76,6 +76,7 @@ RSpec.describe QuestionsController, :type => :controller do
   end
 
   describe "POST create fail" do
+    
     it "returns http success" do
     end
 
@@ -153,7 +154,7 @@ RSpec.describe QuestionsController, :type => :controller do
   end
 
   describe "POST destroy fail" do
-    it "returns http success"
+    it "returns http success" do
     end
 
     it "renders the index view" do
