@@ -5,4 +5,4 @@
 			= submit_tag('Delete')
 %p= @response.text
 %p= @response.user_id
-%p= @response.created_at
+%p= (@response.created_at).strftime("%m-%d-%Y")
