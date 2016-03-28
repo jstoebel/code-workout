@@ -2,6 +2,7 @@
 %p Find me in app/views/questions/show.html.haml
 %h1
 	=@question.title
+
 %tr
 	- if @question.user_id != nil
 		%td 
@@ -29,6 +30,8 @@
 			%td= link_to response.text, response
 			%td= response.user_id
 			%td= response.created_at 
+
+=render(:partial => 'application/record_error_messages', :locals => {:record => @response})
 
 %h1 Respond to this question:
 

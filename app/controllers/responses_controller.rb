@@ -13,13 +13,15 @@ class ResponsesController < ApplicationController
   def create
     @response = Response.new(safe_assign)
     @response.user_id = current_user.id
+    @question = Question.find(@response.question_id)
+    @responses = Response.all.where(question_id: @question.id) 
 
     if @response.save
       flash[:success] = "Response saved!"
       redirect_to question_path(@response.question.id)
     else
       flash[:error] = "Error creating your response."
-      # render :template => "questions/show"
+      render 'questions/show'
     end
   end
 
@@ -36,7 +38,7 @@ class ResponsesController < ApplicationController
       redirect_to question_path(@response.question.id)
     else
       flash[:error] = "Error editing your response."
-      # render :template => "questions/show"
+      render :template => 'responses/edit', :id => @response
     end
   end
 
