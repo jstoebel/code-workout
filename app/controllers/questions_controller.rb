@@ -1,13 +1,26 @@
 class QuestionsController < ApplicationController
   def index
-	 @questions = Question.all
+     #pre:
+	#Question.all: Sellects all items in the table Question
+     #post: All items of the Question table are shown
+	#question#index is rendered
+	@questions = Question.all
+  end
+
+  def show
+     #pre:
+	#exercise_id: The exercise this question should be associated with
+	#pasrams[:id] (optional): The exercise this resqonses should be associated with
+     #post: The sellected item of the Question table is shown along with any optional items sellected from the Response table
+	#question#show is rendered
+	@question = Question.find(params[:id])
+	@responses = Response.all.where(question_id: params[:id])
   end
 
   def show
     @question = Question.find(params[:id])
     @responses = Response.all.where(question_id: params[:id])
     @response = Response.new
->>>>>>> origin
   end
 
   def new

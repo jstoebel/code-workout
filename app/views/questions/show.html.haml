@@ -1,18 +1,24 @@
-%h1 Questions#show
-%p Find me in app/views/questions/show.html.haml
 %h1
 	=@question.title
 
 %tr
 	- if @question.user_id != nil
-		%td 
+		%td
 			=@question.user_id
-	%td= link_to "Edit", edit_question_path(@question)
-	%td= form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
-		= submit_tag('Delete')	
+
+	%td
+		=link_to "Back", questions_path, class: "btn btn-default" 	 	 
 %p 	
 	=@question.body
-%p= "Posted: #{@question.created_at}" 
+%p
+	= "Posted: #{@question.created_at.strftime("%m-%d-%Y")}" 
+%tr	
+	%td
+		= link_to "Edit", edit_question_path(@question), class: "btn btn-default"
+	%td
+		= form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
+			= submit_tag('Delete')
+
 - if @question.tags != nil	
 	%p
 		=@question.tags
@@ -20,16 +26,14 @@
 	%h3 No Responses
 - else
 	%h3 Responses:
-	%table
-		%tr
-			%th Text:
-			%th User:
-			%th Posted
 	- @responses.each do |response|
 		%tr
-			%td= link_to response.text, response
-			%td= response.user_id
-			%td= response.created_at 
+			%td
+				= link_to response.text, response
+			%td
+				= response.user_id
+			%td
+				= response.created_at.strftime("%m-%d-%Y") 
 
 =render(:partial => 'application/record_error_messages', :locals => {:record => @response})
 
