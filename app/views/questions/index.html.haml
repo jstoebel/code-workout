@@ -2,6 +2,8 @@
 -if @questions.size == 0
 	%em = No Questions Found
 -else
+	=link_to "New", new_question_path, class: "btn btn-default"
+
 	%table
 		%r
 			%th Title: 
@@ -12,7 +14,7 @@
 				%td= link_to question.title, question
 				%td= question.user_id
 				%td= question.created_at
-				%td= link_to "Edit", edit_question_path(question)
-				%td= link_to "Delete", question, method: :delete
+				%td= link_to "Edit", edit_question_path(question), class: "btn btn-default"
+				%td= link_to "Delete", question, method: :delete, class: "btn btn-default"
 
  
