@@ -21,7 +21,6 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @responses = Response.all.where(question_id: params[:id])
     @response = Response.new
->>>>>>> 386318039de4df233894692317055da2c91ead1d
   end
 
   def new
