@@ -20,11 +20,6 @@ RSpec.describe QuestionsController, :type => :controller do
     end
   end
 
-  let(:valid_attributes) { { 
-    title: "question title",
-    body: "question body"
-   } }
-
   describe "GET index" do
     it "returns http success" do
       get :index
@@ -53,6 +48,8 @@ RSpec.describe QuestionsController, :type => :controller do
       get :show
     end
 
+    it "renders the show view" do
+    end
   end
 
   describe "GET new" do
@@ -60,7 +57,8 @@ RSpec.describe QuestionsController, :type => :controller do
       get :new
       expect(response).to have_http_status(:success)
     end
-    it "makes a new record" do
+
+    it "instantiates a new record" do
       assigns(:question).should be_a_new(Question)
     end
 
@@ -69,6 +67,46 @@ RSpec.describe QuestionsController, :type => :controller do
   end
 
   describe "POST create success" do
+    it "redirects to index" do
+      question_params = FactoryGirl.attributes_for(:question)
+      expect {post(:create, 
+          {:question => question_params
+          }
+        ) 
+      }.to change(Question, :count).by(1)
+      expect(response).to have_http_status(:success) #FIX THIS! SHOULD REDIRECT!
+    end
+
+    it "creates a new record" do
+    end
+
+    it "displays a flash message" do
+    end
+  end
+
+  describe "POST create fail" do
+    
+    it "returns http success" do
+    end
+
+    it "renders new form" do
+    end
+
+    it "displays a flash message" do
+    end
+
+    it "renders the new view" do
+    end
+
+    it "pulls the right record" do
+    end
+
+    it "renders the edit view" do
+    end
+  end
+
+  describe "POST create success" do
+
     it "redirects to index" do
 
       question_params = FactoryGirl.attributes_for(:question)
@@ -81,7 +119,38 @@ RSpec.describe QuestionsController, :type => :controller do
       expect(response).to redirect_to(questions_path) #FIX THIS! SHOULD REDIRECT!
     end
 
+
     it "creates a new record" do
+    end
+
+    it "pulls the right record" do
+    end
+
+    it "renders the delete view" do
+    end
+
+  end
+
+  describe "POST destroy success" do
+    it "redirects to index" do
+      get :destroy
+      expect(response).to have_http_status(:success)
+
+    end
+
+    it "destroys a record" do
+    end
+
+    it "displays a flash message" do
+    end
+
+  end
+
+  describe "POST destroy fail" do
+    it "returns http success" do
+    end
+
+    it "renders the index view" do
     end
 
     it "displays a flash message" do

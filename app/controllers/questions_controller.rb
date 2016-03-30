@@ -33,7 +33,6 @@ class QuestionsController < ApplicationController
     @question = Question.new({
       :exercise_id => params[:exercise_id]
       })
-
   end
 
   def create
