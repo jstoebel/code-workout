@@ -2,6 +2,8 @@
 -if @questions.size == 0
 	%em = No Questions Found
 -else
+	=link_to "New", new_question_path, class: "btn btn-default"
+
 	%table
 		%r
 			%th Title: 
@@ -11,8 +13,8 @@
 			%tr
 				%td= link_to question.title, question
 				%td= question.user_id
-				%td= question.created_at
-				%td= link_to "Edit", edit_question_path(question)
+				%td= question.created_at.strftime("%m-%d-%Y")
+				%td= link_to "Edit", edit_question_path(question), class: "btn btn-default"
 				%td
 					= form_for question, url: question_path(question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
 						= submit_tag('Delete')
