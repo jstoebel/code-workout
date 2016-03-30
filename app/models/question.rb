@@ -1,7 +1,7 @@
 class Question < ActiveRecord::Base
-
     #ASSOCIATIONS
-    has_many :responses
+    
+    has_many :responses, :dependent => :delete_all
     belongs_to :user
     belongs_to :exercise
 

@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   def index
+<<<<<<< HEAD
      #pre:
 	#Question.all: Sellects all items in the table Question
      #post: All items of the Question table are shown
@@ -15,6 +16,15 @@ class QuestionsController < ApplicationController
 	#question#show is rendered
 	@question = Question.find(params[:id])
 	@responses = Response.all.where(question_id: params[:id])
+=======
+	 @questions = Question.all
+  end
+
+  def show
+    @question = Question.find(params[:id])
+    @responses = Response.all.where(question_id: params[:id])
+    @response = Response.new
+>>>>>>> 386318039de4df233894692317055da2c91ead1d
   end
 
   def new
@@ -76,9 +86,14 @@ class QuestionsController < ApplicationController
   end
 
   def delete
+    @question = Question.find(params[:question_id])
   end
 
   def destroy
+    @question = Question.find(params[:id])
+    @question.destroy
+    redirect_to questions_path
+    flash[:success] = "You have successfully deleted the question"    
   end
 
   private

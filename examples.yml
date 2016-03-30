@@ -1,0 +1,140 @@
+---
+- external_id: cs1114-sp2016-hw02-q07
+  is_public: true
+  experience: 50
+  language_list: Java
+  style_list: multiple choice, single answer
+  tag_list: initialization, objects
+  current_version:
+    version: 1 
+    creator: edwards@cs.vt.edu
+    prompts:
+    - multiple_choice_prompt:
+        position: 1
+        question: |
+          A special kind of method that is used to initialize a brand new
+          object when it is created is called a:
+        allow_multiple: false
+        choices:
+          - answer: constructor
+            position: 1
+            value: 1
+          - answer: initializer
+            position: 2
+            value: 0
+          - answer: creator
+            position: 3
+            value: 0
+          - answer: builder
+            position: 4
+            value: 0
+
+- external_id: cs1114-sp2016-hw02-q05
+  is_public: true
+  experience: 50
+  language_list: Java
+  style_list: multiple choice, single answer
+  tag_list: methods, method definition, Jeroos
+  current_version:
+    version: 1
+    creator: edwards@cs.vt.edu
+    prompts:
+    - multiple_choice_prompt:
+        position: 1
+        question: |
+          Suppose you are creating your own subclass of `Jeroo` and adding
+          a new method to it that hops one square and then plants a flower.
+          What is the proper way to define this new method?
+        allow_multiple: false
+        choices:
+          - answer: |
+              ~~~
+              public void hopAndPlant()
+              {
+                  this.hop();
+                  this.plant();
+              }
+              ~~~
+            position: 1
+            value: 1
+          - answer: |
+              ~~~
+              public void hopAndPlant()
+              {
+                  this.plant();
+                  this.hop();
+              }
+              ~~~
+            position: 2
+            value: 0
+          - answer: |
+              ~~~
+              public hopAndPlant()
+              {
+                  this.hop();
+                  this.plant();
+              }
+              ~~~
+            position: 3
+            value: 0
+          - answer: |
+              ~~~
+              public class hopAndPlant()
+              {
+                  this.plant();
+                  this.hop();
+              }
+              ~~~
+            position: 4
+            value: 0
+
+- name: powLoop
+  external_id: powLoop
+  is_public: true
+  experience: 50
+  language_list: Java
+  style_list: code writing
+  tag_list: loops, logic, arithmetic
+  current_version:
+    version: 1
+    creator: edwards@cs.vt.edu
+    prompts:
+    - coding_prompt:
+        position: 1
+        question: |
+          Given two numbers, `n` and `x`, use a loop to compute the value
+          of `n` raised to the `x` power--that is, `n` multiplied by itself
+          `x` times.  You may not use standard library functions from the
+          `Math` class in your answer.
+        class_name: Answer
+        method_name: powLoop
+        starter_code: |
+          public int powLoop(int n, int x)
+          {
+              ___
+          }
+        wrapper_code: |
+          public class Answer
+          {
+              ___
+
+              public static class Math {}
+              public static class java
+              {
+                  public static class lang
+                  {
+                      public static class Math {}
+                  }
+              }
+          }
+        tests: |
+          "1, 0",1,example
+          "2, 4",16,example
+          "3, 2",9,example
+          "3, 0",1
+          "0, 3",0
+          "-2, 2",4
+          "2, 7",128
+          "10, 3",1000
+          "5, 3",125
+          "3, 4",81,hidden

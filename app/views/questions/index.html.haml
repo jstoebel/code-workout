@@ -13,8 +13,16 @@
 			%tr
 				%td= link_to question.title, question
 				%td= question.user_id
+<<<<<<< HEAD
 				%td= question.created_at
 				%td= link_to "Edit", edit_question_path(question), class: "btn btn-default"
 				%td= link_to "Delete", question, method: :delete, class: "btn btn-default"
+=======
+				%td= question.created_at.strftime("%m-%d-%Y")
+				%td= link_to "Edit", edit_question_path(question)
+				%td
+					= form_for question, url: question_path(question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
+						= submit_tag('Delete')
+>>>>>>> 386318039de4df233894692317055da2c91ead1d
 
  
