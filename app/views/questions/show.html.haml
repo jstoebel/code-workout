@@ -1,5 +1,6 @@
 %h1
 	=@question.title
+
 %tr
 	- if @question.user_id != nil
 		%td
@@ -33,6 +34,8 @@
 				= response.user_id
 			%td
 				= response.created_at.strftime("%m-%d-%Y") 
+
+=render(:partial => 'application/record_error_messages', :locals => {:record => @response})
 
 %h1 Respond to this question:
 
