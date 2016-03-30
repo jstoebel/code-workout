@@ -1,6 +1,5 @@
 class QuestionsController < ApplicationController
   def index
-<<<<<<< HEAD
      #pre:
 	#Question.all: Sellects all items in the table Question
      #post: All items of the Question table are shown
@@ -16,8 +15,6 @@ class QuestionsController < ApplicationController
 	#question#show is rendered
 	@question = Question.find(params[:id])
 	@responses = Response.all.where(question_id: params[:id])
-=======
-	 @questions = Question.all
   end
 
   def show
