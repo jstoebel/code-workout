@@ -12,8 +12,10 @@
             %li
               .yamm-content
                 %ul.list-unstyled
-                  %li= link_to 'Workouts', workouts_path 
-                  %li= link_to 'Exercises', exercises_path
+                  %li
+                    %strong= link_to 'Workouts', workouts_path 
+                  %li
+                    %strong= link_to 'Exercises', exercises_path
         %li.dropdown
           %a.dropdown-toggle{ href: organizations_path,
             data: { toggle: 'dropdown' }, value: 'Course' }
@@ -22,8 +24,6 @@
             %li
               .yamm-content
                 %ul.list-unstyled
-                  %li
-                    %strong Courses
                   %li
                     %strong= link_to 'Browse all', organizations_path
                   - if user_signed_in? && current_user.course_enrollments.any?
