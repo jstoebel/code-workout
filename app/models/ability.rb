@@ -13,6 +13,8 @@ class Ability
   #
   def initialize(user)
     # default abilities for anonymous, non-logged-in visitors
+    alias_action :create, :read, :update, :destroy, :to => :crud
+
     can [:read, :index], [Term, Organization, Course, CourseOffering]
 
     if user
@@ -42,6 +44,7 @@ class Ability
         process_exercises user
         process_workouts user
         process_resource_files user
+        process_qa_forum user
       end
     end
   end
@@ -90,15 +93,18 @@ class Ability
 
   # -------------------------------------------------------------
   def process_instructor(user)
-    if user.global_role.is_instructor? &&
-      !user.global_role.can_manage_all_courses?
-      # FIXME: The exercise/workout permissions need to be role-based
-      # with respect to the course offering, rather than depending on the
-      # global role.
-      can [:create], [Course, CourseOffering, CourseEnrollment,
-        Workout, Exercise, Attempt, ResourceFile]
+    if user.global_role.is_instructor?
 
-      can [:index], [Workout, Exercise, Attempt, ResourceFile]
+
+      if !user.global_role.can_manage_all_courses?
+        # FIXME: The exercise/workout permissions need to be role-based
+        # with respect to the course offering, rather than depending on the
+        # global role.
+        can [:create], [Course, CourseOffering, CourseEnrollment,
+          Workout, Exercise, Attempt, ResourceFile]
+
+        can [:index], [Workout, Exercise, Attempt, ResourceFile]
+      end
     end
   end
 
@@ -227,6 +233,12 @@ class Ability
   # -------------------------------------------------------------
   def process_resource_files(user)
     can [:read, :update, :destroy], ResourceFile, user_id: user.id
+  end
+
+  def process_qa_forum(user)
+    can [:read, :write], [Question, Response]
+    can [:upvote, :mark_duplicate], Question
+    can :crud, [Question, Response], user_id: user.id
   end
 
 end

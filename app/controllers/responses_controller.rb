@@ -1,9 +1,12 @@
 class ResponsesController < ApplicationController
+
+  authorize_resource
   def index
   end
 
   def show
 	@response = Response.find(params[:id])
+  authorize! :read, @response
   end
 
   def new
@@ -12,6 +15,7 @@ class ResponsesController < ApplicationController
   def create
     @response = Response.new(safe_assign)
     @response.user_id = current_user.id
+    authorize! :create, @response
     @question = Question.find(@response.question_id)
     @responses = Response.all.where(question_id: @question.id) 
 
@@ -26,12 +30,13 @@ class ResponsesController < ApplicationController
 
   def edit
     @response = Response.find(params[:id])
+    authorize! :edit, @response
   end
 
   def update
     @response = Response.find(params[:id])
     @response.assign_attributes(safe_assign)
-
+    authorize! :update, @response
     if @response.save
       flash[:success] = "Response edit saved!"
       redirect_to question_path(@response.question.id)
@@ -43,10 +48,12 @@ class ResponsesController < ApplicationController
 
   def delete
     @response = Response.find(params[:response_id])
+    authorize! :destroy, @response
   end
 
   def destroy
     @response = Response.find(params[:id])
+    authorize! :destroy, @response
     @response.destroy
     redirect_to questions_path(@response.question_id)
     flash[:success] = "You have successfully deleted the response"    
