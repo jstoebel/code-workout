@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+
+  authorize_resource
   def index
      #pre:
 	#Question.all: Sellects all items in the table Question
@@ -14,11 +16,13 @@ class QuestionsController < ApplicationController
      #post: The sellected item of the Question table is shown along with any optional items sellected from the Response table
 	#question#show is rendered
 	@question = Question.find(params[:id])
-	@responses = Response.all.where(question_id: params[:id])
+
+  @responses = Response.all.where(question_id: params[:id])
   end
 
   def show
     @question = Question.find(params[:id])
+    authorize! :read, @question
     @responses = Response.all.where(question_id: params[:id])
     @response = Response.new
   end
@@ -33,6 +37,7 @@ class QuestionsController < ApplicationController
     @question = Question.new({
       :exercise_id => params[:exercise_id]
       })
+    authorize! :create, @question
   end
 
   def create
@@ -43,6 +48,7 @@ class QuestionsController < ApplicationController
       #OR new question is not saved -> render new
     @question = Question.new(safe_assign)
     @question.user_id = current_user.id
+    authorize! :create, @question
 
     if @question.save
       flash[:success] = "Question saved!"
@@ -60,6 +66,7 @@ class QuestionsController < ApplicationController
     #post:
       #edit view is rendered
     @question = Question.find(params[:id])
+    authorize! :edit, @question
   end
 
   def update
@@ -71,6 +78,7 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @question.assign_attributes(safe_assign)
 
+    authorize! :update, @question
     if @question.save
       flash[:success] = "Question saved!"
       redirect_to questions_path
@@ -82,10 +90,13 @@ class QuestionsController < ApplicationController
 
   def delete
     @question = Question.find(params[:question_id])
+    authorize! :destroy, @question
   end
 
   def destroy
     @question = Question.find(params[:id])
+    authorize! :destroy, @question
+
     @question.destroy
     redirect_to questions_path
     flash[:success] = "You have successfully deleted the question"    
