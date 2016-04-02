@@ -10,17 +10,11 @@ class QuestionsController < ApplicationController
   end
 
   def show
-     #pre:
-	#exercise_id: The exercise this question should be associated with
-	#pasrams[:id] (optional): The exercise this resqonses should be associated with
-     #post: The sellected item of the Question table is shown along with any optional items sellected from the Response table
-	#question#show is rendered
-	@question = Question.find(params[:id])
-
-  @responses = Response.all.where(question_id: params[:id])
-  end
-
-  def show
+    #pre:
+      #exercise_id: The exercise this question should be associated with
+      #params[:id] (optional): The exercise this resqonses should be associated with
+    #post: The sellected item of the Question table is shown along with any optional items sellected from the Response table
+      #question#show is rendered
     @question = Question.find(params[:id])
     authorize! :read, @question
     @responses = Response.all.where(question_id: params[:id])
