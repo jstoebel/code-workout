@@ -67,7 +67,7 @@ CodeWorkout::Application.routes.draw do
     # At the bottom, so the routes above take precedence over existing ids
     
     resources :exercises do
-      resources :questions, :only => [:new]
+      resources :questions, :only => [:new, :index]
     end
 
     # /gym/workouts ...

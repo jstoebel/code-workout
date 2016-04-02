@@ -6,8 +6,12 @@ class QuestionsController < ApplicationController
 	#Question.all: Sellects all items in the table Question
      #post: All items of the Question table are shown
 	#question#index is rendered
-	@questions = Question.all
-  end
+	if params[:exercise_id]
+		@questions = Question.where(exercise_id: params[:exercise_id]) 
+	else
+		@questions = Question.all
+	end  
+end
 
   def show
     #pre:

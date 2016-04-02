@@ -58,6 +58,7 @@ class Exercise < ActiveRecord::Base
   has_many :owners, through: :exercise_owners
   belongs_to :current_version, class_name: 'ExerciseVersion'
   belongs_to :irt_data, dependent: :destroy
+  has_many :questions
 
   accepts_nested_attributes_for :exercise_versions, allow_destroy: true
 
