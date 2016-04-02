@@ -44,3 +44,12 @@
 	= f.text_area(:text, size: "40x5")
 	= f.hidden_field(:question_id, :value => @question.id)
 	= submit_tag("Submit")
+%ul.dropdown-menu
+    %li
+      .yamm-content
+        %ul.list-unstyled
+          %li
+            %strong Workouts
+          %li= link_to 'Browse all', workouts_path 
+          %li
+            %strong Exercises
