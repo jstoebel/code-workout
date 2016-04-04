@@ -18,7 +18,7 @@
 	%td
 		= form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
 			= submit_tag('Delete')
-<%= select_tag(:flag, options_for_select([['Duplicate', 100], ['Offensive', 200], ['Out of Topic', 300]], :selected => params[:flag])) %>
+<%= select_tag(:flag, options_for_select([['Duplicate', 1], ['Offensive', 2], ['Out of Topic', 3]], :selected => params[:flag])) %>
 - if @question.tags != nil	
 	%p
 		=@question.tags
