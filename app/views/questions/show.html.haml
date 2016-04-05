@@ -29,11 +29,12 @@
 	- @responses.each do |response|
 		%tr
 			%td
-				= link_to response.text, response
+				= response.text
 			%td
 				= response.user_id
 			%td
-				= response.created_at.strftime("%m-%d-%Y") 
+				= response.created_at.strftime("%m-%d-%Y")
+			%br 
 
 =render(:partial => 'application/record_error_messages', :locals => {:record => @response})
 
