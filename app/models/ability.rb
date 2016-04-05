@@ -95,7 +95,8 @@ class Ability
   def process_instructor(user)
     if user.global_role.is_instructor?
 
-
+      can :approve_duplicate, Question
+      
       if !user.global_role.can_manage_all_courses?
         # FIXME: The exercise/workout permissions need to be role-based
         # with respect to the course offering, rather than depending on the
