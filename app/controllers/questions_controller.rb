@@ -11,7 +11,11 @@ class QuestionsController < ApplicationController
 	else
 		@questions = Question.all
 	end  
-end
+  end
+
+  def search
+    #nothing for now
+  end
 
   def show
     #pre:
