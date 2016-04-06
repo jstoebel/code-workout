@@ -10,33 +10,34 @@ RSpec.describe QuestionsController, :type => :controller do
     user = FactoryGirl.create :confirmed_user
     FactoryGirl.create :exercise
     FactoryGirl.create :question
+
     @request.env["devise.mapping"] = Devise.mappings[:user]
     sign_in user
   end
 
   describe "a test" do
     it "works!" do
-      
+      login_admin
+      puts User.first.inspect
     end
   end
 
-  describe "GET index" do
-    it "returns http success" do
-      get :index
-      expect(response).to have_http_status(:success)
-    end
+  # describe "GET index" do
+  #   it "returns http success" do
+  #     get :index
+  #     expect(response).to have_http_status(:success)
+  #   end
 
-    it "pulls all questions" do
-      get :index
-      assigns(:questions).should
-      expect(assigns(:questions)).to eq(Question.all)
-    end
+  #   it "pulls all questions" do
+  #     get :index
+  #     assigns(:questions).should
+  #     expect(assigns(:questions)).to eq(Question.all)
 
-    it "renders the index view" do
-      get :index
-      expect(response).to render_template("index")
-    end
-  end
+  #   it "renders the index view" do
+  #     get :index
+  #     expect(response).to render_template("index")
+  #   end
+  # end
 
   # describe "GET show" do
   #   it "returns http success" do
