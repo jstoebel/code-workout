@@ -98,6 +98,7 @@ RSpec.describe QuestionsController, :type => :controller do
       }
       context "as #{r}" do
         login_as r
+
         it "redirects to index" do
           post_question
           expect(response).to redirect_to(questions_path)
@@ -108,10 +109,42 @@ RSpec.describe QuestionsController, :type => :controller do
             }.to change{ Question.count }.by(1)
         end
 
+        it "creates question for user" do
+          post_question
+          expect(assigns(:question).user_id).to eq(current_user.id) # BROKEN
+        end
+
         it "displays a flash message" do
           post_question
           expect(flash[:success]).to eq("Question saved!")
 
+        end
+
+      end
+    end
+  end
+
+  describe "POST create fail bad params" do
+    ControllerMacros::ALL_ROLES.each do |r|
+
+
+      q_attrs = FactoryGirl.build(:question, :exercise => Exercise.first).attributes
+      q_attrs["title"] = nil
+      subject(:post_question) {post :create,
+        :question => 
+          q_attrs
+      }
+      context "as #{r}" do
+        login_as r
+
+        it "renders new" do
+          post_question
+          expect(response).to render_template("new")
+        end
+
+        it "displays a flash message" do
+          post_question
+          expect(flash[:error]).to eq("Error creating your question.")
         end
       end
     end
