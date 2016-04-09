@@ -18,19 +18,26 @@ RSpec.describe QuestionsController, :type => :controller do
     ControllerMacros::ALL_ROLES.each do |r|
       context "as #{r}" do
         login_as r
+        subject(:get_index) { get :index }
         it "returns http success" do
-          get :index
+          get_index
           expect(response).to have_http_status(:success)
         end
 
         it "pulls all questions" do
-          get :index
+          get_index
           assigns(:questions).should
           expect(assigns(:questions)).to eq(Question.all)
         end
 
+        it "pulls all exercise questions" do
+          first_ex = Exercise.first
+          get :index, {:exercise_id => first_ex.id }
+          expect(assigns(:questions)).to eq(Question.where(exercise_id: first_ex.id))
+        end
+
         it "renders the index view" do
-          get :index
+          get_index
           expect(response).to render_template("index")
         end
       end
@@ -85,23 +92,26 @@ RSpec.describe QuestionsController, :type => :controller do
   describe "POST create success" do
     ControllerMacros::ALL_ROLES.each do |r|
 
-      subject(:create_params) {post :create,
-        FactoryGirl.build(:question, :exercise => Exercise.first).attributes
+      subject(:post_question) {post :create,
+        :question => 
+          FactoryGirl.build(:question, :exercise => Exercise.first).attributes
       }
       context "as #{r}" do
         login_as r
         it "redirects to index" do
-          puts create_params
-          post :create, {:question => create_params}
-          expect(response).to have_http_status(:success) #FIX THIS! SHOULD REDIRECT!
+          post_question
+          expect(response).to redirect_to(questions_path)
         end
 
-        # it "creates a new record" do
-        #   expect {post create_params
-        #   }.to change(Question, :count).by(1)
-        # end
+        it "creates a new record" do
+          expect { post_question 
+            }.to change{ Question.count }.by(1)
+        end
 
         it "displays a flash message" do
+          post_question
+          expect(flash[:success]).to eq("Question saved!")
+
         end
       end
     end
