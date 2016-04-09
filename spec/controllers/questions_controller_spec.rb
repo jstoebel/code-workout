@@ -52,44 +52,60 @@ RSpec.describe QuestionsController, :type => :controller do
         end
 
         it "renders the show view" do
-          # get :show, {:id => 1} 
+          get :show, {:id => 1} 
+          expect(response).to render_template("show")
 
         end
       end  
     end
   end
 
-  # describe "GET new" do
-  #   it "returns http success" do
-  #     get :new
-  #     expect(response).to have_http_status(:success)
-  #   end
+  describe "GET new" do
+    ControllerMacros::ALL_ROLES.each do |r|
+      context "as #{r}" do
+        login_as r
+        it "returns http success" do
+          get :new
+          expect(response).to have_http_status(:success)
+        end
 
-  #   it "instantiates a new record" do
-  #     assigns(:question).should be_a_new(Question)
-  #   end
+        it "instantiates a new record" do
+          get :new
+          expect(assigns(:question)).to be_a_new(Question)
+        end
 
-  #   it "renders the new view" do
-  #   end
-  # end
+        it "renders the new view" do
+          get :new
+          expect(response).to render_template("new")
+        end
+      end
+    end
+  end
 
-  # describe "POST create success" do
-  #   it "redirects to index" do
-  #     question_params = FactoryGirl.attributes_for(:question)
-  #     expect {post(:create, 
-  #         {:question => question_params
-  #         }
-  #       ) 
-  #     }.to change(Question, :count).by(1)
-  #     expect(response).to have_http_status(:success) #FIX THIS! SHOULD REDIRECT!
-  #   end
+  describe "POST create success" do
+    ControllerMacros::ALL_ROLES.each do |r|
 
-  #   it "creates a new record" do
-  #   end
+      subject(:create_params) {post :create,
+        FactoryGirl.build(:question, :exercise => Exercise.first).attributes
+      }
+      context "as #{r}" do
+        login_as r
+        it "redirects to index" do
+          puts create_params
+          post :create, {:question => create_params}
+          expect(response).to have_http_status(:success) #FIX THIS! SHOULD REDIRECT!
+        end
 
-  #   it "displays a flash message" do
-  #   end
-  # end
+        # it "creates a new record" do
+        #   expect {post create_params
+        #   }.to change(Question, :count).by(1)
+        # end
+
+        it "displays a flash message" do
+        end
+      end
+    end
+  end
 
   # describe "POST create fail" do
     
