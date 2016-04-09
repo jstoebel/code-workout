@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
       #params[:id] (optional): The exercise this resqonses should be associated with
     #post: The sellected item of the Question table is shown along with any optional items sellected from the Response table
       #question#show is rendered
+    
     @question = Question.find(params[:id])
     authorize! :read, @question
     @responses = Response.all.where(question_id: params[:id])
@@ -73,6 +74,7 @@ class QuestionsController < ApplicationController
     @question.assign_attributes(safe_assign)
 
     authorize! :update, @question
+    
     if @question.save
       flash[:success] = "Question saved!"
       redirect_to questions_path
@@ -98,7 +100,7 @@ class QuestionsController < ApplicationController
 
   private
   def safe_assign
-    params.require(:question).permit(:title, :body, :tags, :exercise_id)
+    params.require(:question).permit(:title, :body, :tags, :exercise_id, :flags)
   end
 
 end
