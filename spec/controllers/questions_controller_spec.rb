@@ -5,53 +5,58 @@ RSpec.describe QuestionsController, :type => :controller do
 
   before(:each) do
     FactoryGirl.create :global_role_admin
+    FactoryGirl.create :admin, {:email => "admin@test.org"}
     FactoryGirl.create :global_role_instructor
+    FactoryGirl.create :instructor_user, {:email => "instructor@test.org"}
     FactoryGirl.create :global_role_user
-    user = FactoryGirl.create :confirmed_user
+    FactoryGirl.create :confirmed_user, {:email => "student@test.org"}
     FactoryGirl.create :exercise
     FactoryGirl.create :question
-
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-    sign_in user
   end
 
-  describe "a test" do
-    it "works!" do
-      login_admin
-      puts User.first.inspect
+  describe "GET index" do
+    ControllerMacros::ALL_ROLES.each do |r|
+      context "as #{r}" do
+        login_as r
+        it "returns http success" do
+          get :index
+          expect(response).to have_http_status(:success)
+        end
+
+        it "pulls all questions" do
+          get :index
+          assigns(:questions).should
+          expect(assigns(:questions)).to eq(Question.all)
+        end
+
+        it "renders the index view" do
+          get :index
+          expect(response).to render_template("index")
+        end
+      end
     end
   end
 
-  # describe "GET index" do
-  #   it "returns http success" do
-  #     get :index
-  #     expect(response).to have_http_status(:success)
-  #   end
+  describe "GET show" do
+    ControllerMacros::ALL_ROLES.each do |r|
+      context "as #{r}" do
+        it "returns http success" do
+          get :show, {:id => 1}
+          expect(response).to have_http_status(:success)
+        end
+        
+        it "pulls the right question" do
+          get :show, {:id => 1}
+          expect
+        end
 
-  #   it "pulls all questions" do
-  #     get :index
-  #     assigns(:questions).should
-  #     expect(assigns(:questions)).to eq(Question.all)
+        it "renders the show view" do
+          get :show, {:id => 1}
 
-  #   it "renders the index view" do
-  #     get :index
-  #     expect(response).to render_template("index")
-  #   end
-  # end
-
-  # describe "GET show" do
-  #   it "returns http success" do
-  #     get :show, {:id => 1}
-  #     expect(response).to have_http_status(:success)
-  #   end
-    
-  #   it "pulls the right question" do
-  #     get :show
-  #   end
-
-  #   it "renders the show view" do
-  #   end
-  # end
+        end
+      end  
+    end
+  end
 
   # describe "GET new" do
   #   it "returns http success" do
