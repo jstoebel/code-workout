@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404155534) do
+ActiveRecord::Schema.define(version: 20160408154418) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -146,6 +146,17 @@ ActiveRecord::Schema.define(version: 20160404155534) do
 
   add_index "courses", ["organization_id"], name: "index_courses_on_organization_id"
   add_index "courses", ["slug"], name: "index_courses_on_slug"
+
+  create_table "duplicates", force: true do |t|
+    t.text     "duplicate_msg"
+    t.boolean  "approved"
+    t.integer  "a_user_id"
+    t.integer  "r_user_id"
+    t.integer  "current_question_id"
+    t.integer  "duplicated_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "errors", force: true do |t|
     t.string   "usable_type"
