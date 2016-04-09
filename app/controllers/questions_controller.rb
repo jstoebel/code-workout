@@ -31,7 +31,7 @@ class QuestionsController < ApplicationController
     @question = Question.new({
       :exercise_id => params[:exercise_id]
       })
-    authorize! :create, @question
+    authorize! :write, @question
   end
 
   def create
@@ -42,7 +42,7 @@ class QuestionsController < ApplicationController
       #OR new question is not saved -> render new
     @question = Question.new(safe_assign)
     @question.user_id = current_user.id
-    authorize! :create, @question
+    authorize! :write, @question
 
     if @question.save
       flash[:success] = "Question saved!"
