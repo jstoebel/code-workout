@@ -40,6 +40,7 @@ RSpec.describe QuestionsController, :type => :controller do
   describe "GET show" do
     ControllerMacros::ALL_ROLES.each do |r|
       context "as #{r}" do
+        login_as r
         it "returns http success" do
           get :show, {:id => 1}
           expect(response).to have_http_status(:success)
@@ -47,11 +48,11 @@ RSpec.describe QuestionsController, :type => :controller do
         
         it "pulls the right question" do
           get :show, {:id => 1}
-          expect
+          expect(assigns(:question)).to eq(Question.find(1))
         end
 
         it "renders the show view" do
-          get :show, {:id => 1}
+          # get :show, {:id => 1} 
 
         end
       end  
