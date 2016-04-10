@@ -527,6 +527,4 @@ ActiveRecord::Schema.define(version: 20160225005739) do
   add_index "workouts", ["external_id"], name: "index_workouts_on_external_id", unique: true
   add_index "workouts", ["is_public"], name: "index_workouts_on_is_public"
 
-  add_foreign_key "workout_offerings", "workout_offerings", name: "workout_offerings_continue_from_workout_id_fk", column: "continue_from_workout_id"
-
 end
