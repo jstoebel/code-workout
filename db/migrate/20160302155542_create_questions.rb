@@ -6,8 +6,8 @@ class CreateQuestions < ActiveRecord::Migration
         t.string :tags
         t.integer :user_id
         t.integer :exercise_id
-	t.integer :upvote
-	t.integer :downvote
+        t.integer :upvote
+        t.integer :downvote
         t.timestamps
     end
     add_foreign_key :questions, :users

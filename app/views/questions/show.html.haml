@@ -1,4 +1,3 @@
-!!!
 %html{:lang => "en"}
   %head
     %title Bootstrap Case
@@ -23,15 +22,25 @@
                 4
               %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
                 4
-            .col-sm-8
+
+            .col-sm-6
               %p= @question.body
             .col-sm-2
-              %label{:for => "sel"} Flag:
-              %select#sel.form-control
-                %option Duplicate
-                %option Out of topic
-                %option Contains inappropriate language
-
+              =form_for @question do |f|
+                
+                =f.label "Flag"
+                
+                
+                =f.select(:flags, options_for_select([['select one',''],['Duplicate', 'Duplicate'], ['Out of Topic', 'Out of Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]))
+                //%td= link_to  'Submit', question_path(@question.id), class: "btn btn-info"
+                //=f.submit :onchange => "this.form.submit()", url: question_path(@question.id), class: 'btn-default'
+                =f.submit 'Submit', url: question_path(@question.id), class: 'btn-default'
+                //=f.submit 'Submit', class: 'btn-default'
+                //.actions.inline= f.submit 'GO!'
+            .col-sm-2 			            	    
+			    	
+              =@question.flags
+                      
           .container
             .row
               .col-sm-1
