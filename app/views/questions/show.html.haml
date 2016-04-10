@@ -22,15 +22,24 @@
                 4
               %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
                 4
-            .col-sm-8
+            .col-sm-6
               %p= @question.body
-            .col-sm-2          
-              %label{:for=>"sel"} Flag:
-              %select#sel.form-control
-                %option{:value=>"Duplicate"} Duplicate
-                %option{:value=>"Out of Topic"} Out of Topic
-                %option{:value=>"Contains inappropriate langauge"} Contains inappropriate language 			            	    
-			    	            
+            .col-sm-2
+              =form_for @question do |f|
+                
+                =f.label "Flag"
+                
+                
+                =f.select(:flags, options_for_select([['select one',''],['Duplicate', 'Duplicate'], ['Out of Topic', 'Out of Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]))
+                //%td= link_to  'Submit', question_path(@question.id), class: "btn btn-info"
+                //=f.submit :onchange => "this.form.submit()", url: question_path(@question.id), class: 'btn-default'
+                =f.submit 'Submit', url: question_path(@question.id), class: 'btn-default'
+                //=f.submit 'Submit', class: 'btn-default'
+                //.actions.inline= f.submit 'GO!'
+            .col-sm-2 			            	    
+			    	
+              =@question.flags
+                      
           .container
             .row
               .col-sm-1
@@ -85,6 +94,5 @@
                     = response.user_id
                   %td
                     = response.created_at.strftime("%m-%d-%Y") 
-
 
             =render(:partial => 'application/record_error_messages', :locals => {:record => @response})

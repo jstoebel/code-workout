@@ -17,6 +17,8 @@ class QuestionsController < ApplicationController
       #question#show is rendered
     
     @question = Question.find(params[:id])
+    #@myflag=Request.Form["Flag"]
+    #@question.flags=@myflag
     authorize! :read, @question
     @responses = Response.all.where(question_id: params[:id])
     @response = Response.new
@@ -52,6 +54,7 @@ class QuestionsController < ApplicationController
       flash[:error] = "Error creating your question."
       render 'new'
     end
+    #@flag=Question.new(question_id,)
 
   end
 
@@ -72,12 +75,12 @@ class QuestionsController < ApplicationController
       #OR new question is not saved -> render edit
     @question = Question.find(params[:id])
     @question.assign_attributes(safe_assign)
-
+   
     authorize! :update, @question
     
     if @question.save
       flash[:success] = "Question saved!"
-      redirect_to questions_path
+      redirect_to question_path(@question.id)
     else
       flash[:error] = "Error updating question."
       render 'edit'      
