@@ -12,7 +12,10 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
-
+  config.use_transactional_fixtures = true
+  # config.before(:suite) do
+  #   DatabaseCleaner.clean_with(:truncation)
+  # end
   config.include Devise::TestHelpers, :type => :controller
   config.extend ControllerMacros, :type => :controller
   # ## Mock Framework
