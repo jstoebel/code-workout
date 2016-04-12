@@ -1,47 +1,57 @@
+= render partial: 'layouts/breadcrumb'
 %h1
-	=@question.title
+  =@question.title
 
-%tr
-	- if @question.user_id != nil
-		%td
-			=@question.user_id
+- if @question.exercise_id != nil
+  %h2
+    = "Exercise: #{@question.exercise_id}"
 
-	%td
-		=link_to "Back", questions_path, class: "btn btn-default" 	 	 
-%p 	
-	=@question.body
-%p
-	= "Posted: #{@question.created_at.strftime("%m-%d-%Y")}" 
-%tr	
-	%td
-		= link_to "Edit", edit_question_path(@question), class: "btn btn-default"
-	%td
-		= form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
-			= submit_tag('Delete')
+- if @question.user_id != nil
+  %h4
+    = "User: #{@question.user_id}"
 
+%table
+  %tbody
+    %strong 	
+      =@question.body
+    %p	
+      = "Posted: #{@question.created_at.strftime("%m-%d-%Y")}" 	     
+
+%table
+  %tbody     
+    %tr
+      %td
+        =link_to "Edit", edit_question_path(@question), class: "btn btn-default"
+      %td
+        =form_for @question, url: question_path(@question.id), method: :delete do |f|
+          = f.submit 'Delete', class: "btn btn-default"
 - if @question.tags != nil	
-	%p
-		=@question.tags
+  %p
+    = "TAGS: #{@question.tags}"
+%h2 Responses:
 - if @responses.size == 0
-	%h3 No Responses
+  %h3 No Responses
 - else
-	%h3 Responses:
-	- @responses.each do |response|
-		%tr
-			%td
-				= response.text
-			%td
-				= response.user_id
-			%td
-				= response.created_at.strftime("%m-%d-%Y")
-			%br 
+  %table.table.table-striped{ style: 'width: 9' }
+    %thead
+      %th Text:
+      %th User:     
+      %th Posted:
+    %tbody
+      - @responses.each do |response|
+        %tr 
+          %td
+            = response.text
+          %td
+            = response.user_id
+          %td
+            = response.created_at.strftime("%m-%d-%Y")
 
 =render(:partial => 'application/record_error_messages', :locals => {:record => @response})
 
-%h1 Respond to this question:
+%h2 Respond to this question:
 
 = form_for(@response, url: responses_path) do |f|
-	= f.label(:text, "Your Response")
-	= f.text_area(:text, size: "40x5")
-	= f.hidden_field(:question_id, :value => @question.id)
-	= submit_tag("Submit")
+  = f.text_area(:text, size: "40x5")
+  = f.hidden_field(:question_id, :value => @question.id)
+  = f.submit "Submit", class: "btn btn-default"

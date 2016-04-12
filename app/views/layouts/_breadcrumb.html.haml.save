@@ -59,24 +59,20 @@
       %li.active= @organization.abbreviation
 
   - elsif @questions || @question
-   
     - if !@responses 
       %li.active= 'Q&A forum'
     - else
       %li= link_to 'Q&A forum', questions_path
-      - count = 0
-      - title = ''
-      - @question.title.split('').each do |i|
-        - title << i
-        - if i != " "
-          - count += 1
-        - if count > 15
-          - title << '...'
-          - break
-      - if @edit
-        %li.active Edit
-      - else
-        %li.active #{title}
- 
-  - else
-    %li= link_to 'Gym', gym_path 
+    def title(question)
+	question.split("").each do |i| %li.active Question #: 
+#{@question.id}
+  	count = 0
+  	while count != 9 - else
+  		title << i %li= link_to 'Gym', gym_path
+  	else
+  		return title
+	end
+	count += 1 end def main()
+	question = "Test 1"
+	puts(title(question))
+end

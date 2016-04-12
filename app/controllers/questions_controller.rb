@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
 	#Question.all: Sellects all items in the table Question
      #post: All items of the Question table are shown
 	#question#index is rendered
-	@questions = Question.all
+     @questions = Question.all 
   end
 
   def show
@@ -60,6 +60,8 @@ class QuestionsController < ApplicationController
     #post:
       #edit view is rendered
     @question = Question.find(params[:id])
+    @responses = true
+    @edit = true
     authorize! :edit, @question
   end
 

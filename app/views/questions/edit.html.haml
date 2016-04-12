@@ -1,10 +1,7 @@
-=link_to questions_path do
-    .btn.btn-default
-        %span.glyphicon.glyphicon-arrow-left
-            Back
+= render partial: 'layouts/breadcrumb'
 
 %h1 Edit Question
-%h3
+%h2
     =@question.title
 
 =render(:partial => 'application/record_error_messages', :locals => {:record => @question})
