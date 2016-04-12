@@ -1,7 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe ResponsesController, :type => :controller do
+  include Devise::TestHelpers
 
+  before(:each) do
+    FactoryGirl.create :global_role_admin
+    FactoryGirl.create :admin, {:email => "admin@test.org"}
+    FactoryGirl.create :global_role_instructor
+    FactoryGirl.create :instructor_user, {:email => "instructor@test.org"}
+    FactoryGirl.create :global_role_user
+    FactoryGirl.create :confirmed_user, {:email => "student@test.org"}
+    FactoryGirl.create :exercise
+    FactoryGirl.create :question
+  end
+  
   describe "GET index" do
     it "returns http success" do
       get :index

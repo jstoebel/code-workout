@@ -139,7 +139,6 @@ RSpec.describe QuestionsController, :type => :controller do
   describe "POST create fail bad params" do
     ControllerMacros::ALL_ROLES.each do |r|
 
-
       q_attrs = FactoryGirl.build(:question, :exercise => Exercise.first).attributes
       q_attrs["title"] = nil
       subject(:post_question) {post :create,
@@ -365,42 +364,17 @@ RSpec.describe QuestionsController, :type => :controller do
     end
   end
 
-  # describe "GET delete" do
-  #   it "returns http success" do
-  #     get :delete
-  #     expect(response).to have_http_status(:success)
-  #   end
+  describe "GET search" do
+    (ControllerMacros::ALL_ROLES - ["administrator"]).each do |r|
+      context "as #{r}" do
+        login_as r
 
-  #   it "pulls the right record" do
-  #   end
+        it "returns http success" do
+          expect(response).to have_http_status(:success)
+        end
+        
+      end
+    end
+  end
 
-  #   it "renders the delete view" do
-  #   end
-
-  # end
-
-  # describe "POST destroy success" do
-  #   it "redirects to index" do
-  #     get :destroy
-  #     expect(response).to have_http_status(:success)
-  #   end
-
-  #   it "destroys a record" do
-  #   end
-
-  #   it "displays a flash message" do
-  #   end
-
-  # end
-
-  # describe "POST destroy fail" do
-  #   it "returns http success" do
-  #   end
-
-  #   it "renders the index view" do
-  #   end
-
-  #   it "displays a flash message" do
-  #   end
-  # end
 end
