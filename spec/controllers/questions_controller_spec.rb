@@ -282,20 +282,16 @@ RSpec.describe QuestionsController, :type => :controller do
   end
 
   describe "POST update success" do
-    (ControllerMacros::ALL_ROLES - ["administrator"]).each do |r|
+    (ControllerMacros::ALL_ROLES).each do |r|
       context "as #{r}" do
         login_as r
 
         let(:my_question) { FactoryGirl.create(:question, :user_id => @test_user.id) }
-        let(:update_params) { {:id => my_question.id, :question => {
-              :title => "new title",
-              :body => my_question.body,
-              :tags => my_question.tags,
-              :exercise_id => my_question.exercise_id
-            }
-          }
-        }
 
+        let(:change) { {:title => "new title"} }
+        let(:update_params) { {:id => my_question.id, 
+            :question => my_question.attributes.merge(change)}
+          }
 
         subject(:post_update) { post :update, update_params }
 
@@ -306,24 +302,68 @@ RSpec.describe QuestionsController, :type => :controller do
 
         it "updates the record" do
           post_update
-          #check that params match
-
+          compare_attrs = change.map { |k, v| v == assigns(:question).send(k) }
+          expect(compare_attrs.all?).to be true
+          # expect(assigns(:question)).to eq(update_params[:question])
         end
 
         it "displays flash message" do
+          post_update
+          expect(flash[:success]).to eq("Question saved!")
         end
+      end
+    end
   end
 
-  # describe "POST update fail" do
-  #   it "returns http success" do
-  #   end
+  describe "POST update fail no access" do
+    (ControllerMacros::ALL_ROLES - ["administrator"]).each do |r|
+      context "as #{r}" do
+        login_as r
 
-  #   it "renders edit view" do
-  #   end
+        let(:admin_question) { FactoryGirl.create(:question, :user_id => 1) }
+        
+        let(:change) { {:title => "new title"} }
+        let(:update_params) { {:id => admin_question.id, 
+            :question => admin_question.attributes.merge(change)}
+          }
 
-  #   it "displays flash message" do
-  #   end
-  # end
+        subject(:post_update) { post :update, update_params }
+
+        it "returns https success" do
+          post_update
+          expect(response).to redirect_to(root_path)
+        end
+
+        it "does not update the record" do
+          post_update
+          compare_attrs = change.map { |k, v| v == assigns(:question).send(k) }
+          expect(compare_attrs.all?).to be false
+        end
+
+      end
+    end
+  end
+
+  describe "POST update fail param" do
+    (ControllerMacros::ALL_ROLES - ["administrator"]).each do |r|
+      context "as #{r}" do
+        login_as r
+
+        let(:last_question) { FactoryGirl.create(:question, :user_id => 1) }
+        
+        let(:update_params) { {:id => last_question.id + 1, 
+            :question => last_question.attributes}
+          }
+
+        subject(:post_update) { post :update, update_params }
+
+        it "raises ActiveRecord::RecordNotFound" do
+          expect { post_update }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+
+      end
+    end
+  end
 
   # describe "GET delete" do
   #   it "returns http success" do
