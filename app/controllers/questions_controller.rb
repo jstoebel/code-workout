@@ -78,9 +78,8 @@ class QuestionsController < ApplicationController
       #the question object is saved -> redirect to index
       #OR new question is not saved -> render edit
     @question = Question.find(params[:id])
-    @question.assign_attributes(safe_assign)
-
     authorize! :update, @question
+    @question.assign_attributes(safe_assign)
     if @question.save
       flash[:success] = "Question saved!"
       redirect_to questions_path
