@@ -32,6 +32,7 @@ class QuestionsController < ApplicationController
       :exercise_id => params[:exercise_id]
       })
     authorize! :create, @question
+    @new = true
   end
 
   def create
@@ -60,7 +61,6 @@ class QuestionsController < ApplicationController
     #post:
       #edit view is rendered
     @question = Question.find(params[:id])
-    @responses = true
     @edit = true
     authorize! :edit, @question
   end

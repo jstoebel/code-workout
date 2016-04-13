@@ -11,12 +11,14 @@
       .col-sm-1
         %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-loading-text" => " ... ", :type => "button"}
         %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
-      .col-sm-10 	
-        %h1
-          = @question.body
+      .col-sm-1 	
+        %h1= @question.body
       .col-sm-1
-        %input.btn.btn-default{:type => "button", :value => "Edit"}
-        %input.btn.btn-default{:type => "submit", :value => "Delete", url: question_path(@question.id), :onsubmit => "return confirm('Are you sure you want to delete the question?')"}
+        %td= link_to "Edit", edit_question_path(@question), class: "btn btn-default"        
+      .col-sm-0.25  
+        %td
+          = form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
+            = f.submit 'Delete', class: "btn btn-default"
 
 %table{ style: "width: auto"}
   %tbody

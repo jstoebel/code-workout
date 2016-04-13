@@ -58,14 +58,19 @@
     - else
       %li.active= @organization.abbreviation
 
+  - elsif @edit
+    %li.active Edit
+
+  - elsif @new
+    %li.active New
+
   - elsif @questions || @question
-   
+    - title = ''   
     - if !@responses 
-      %li.active= 'Q&A forum'
+      - title = 'Q&A forum'
     - else
       %li= link_to 'Q&A forum', questions_path
       - count = 0
-      - title = ''
       - @question.title.split('').each do |i|
         - title << i
         - if i != " "
@@ -73,10 +78,7 @@
         - if count > 15
           - title << '...'
           - break
-      - if @edit
-        %li.active Edit
-      - else
-        %li.active #{title}
+    %li.active #{title}
  
   - else
     %li= link_to 'Gym', gym_path 
