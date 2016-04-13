@@ -104,9 +104,30 @@ class QuestionsController < ApplicationController
     flash[:success] = "You have successfully deleted the question"    
   end
 
+#  def up_vote
+#   @question=Question.find(params[:id])
+#  @question.up_vote = @question.up_vote + 1
+#  end
+#  def down_vote
+#    @question=Question.find(params[:id])
+#    @question.down_vote = @question.down_vote + 1
+#  end
+
+
+  def up_vote
+    @question = Question.find(params[:id])
+    @question.liked_by current_user
+
+    if request.xhr?
+      render json: { count: @question.get_likes.size, id: params[:id] }
+    else
+      redirect_to @question
+    end
+  end
+
   private
   def safe_assign
-    params.require(:question).permit(:title, :body, :tags, :exercise_id)
+    params.require(:question).permit(:title, :body, :tags, :exercise_id, :up_vote, :down_vote, :flags)
   end
 
 end
