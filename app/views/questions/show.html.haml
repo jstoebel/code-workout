@@ -11,7 +11,7 @@
       .col-sm-1
         %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-loading-text" => " ... ", :type => "button"}
         %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
-      .col-sm-1 	
+      .col-sm-9 	
         %h1= @question.body
       .col-sm-1
         %td= link_to "Edit", edit_question_path(@question), class: "btn btn-default"        

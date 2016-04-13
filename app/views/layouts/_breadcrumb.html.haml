@@ -59,9 +59,11 @@
       %li.active= @organization.abbreviation
 
   - elsif @edit
+    %li= link_to 'Q&A forum', questions_path
     %li.active Edit
 
   - elsif @new
+    %li= link_to 'Q&A forum', questions_path
     %li.active New
 
   - elsif @questions || @question
