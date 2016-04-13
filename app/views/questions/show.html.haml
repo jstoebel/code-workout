@@ -19,24 +19,29 @@
           .row
             .col-sm-2
               %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-loading-text" => " ... ", :type => "button"}
-                4
+                =@question.up_vote
               %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
-                4
+                =@question.down_vote
             .col-sm-6
               %p= @question.body
-            .col-sm-2
-              =form_for @question do |f|
+            .col-sm-1
+
+
+              %label{:for => "sel"} Flag:
+              =form_for @question, url: question_path(@question.id) do |f|
+
+                            
                 
-                =f.label "Flag"
+                =f.select(:flags, options_for_select([['select one',''],['Duplicate', 'Duplicate'], ['Out of Topic', 'Out of Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]), {}, {:style => "max-width: 100px;"})
                 
-                
-                =f.select(:flags, options_for_select([['select one',''],['Duplicate', 'Duplicate'], ['Out of Topic', 'Out of Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]))
-                //%td= link_to  'Submit', question_path(@question.id), class: "btn btn-info"
-                //=f.submit :onchange => "this.form.submit()", url: question_path(@question.id), class: 'btn-default'
                 =f.submit 'Submit', url: question_path(@question.id), class: 'btn-default'
-                //=f.submit 'Submit', class: 'btn-default'
-                //.actions.inline= f.submit 'GO!'
-            .col-sm-2 			            	    
+                
+
+
+                
+
+                
+            .col-sm-3			            	    
 			    	
               =@question.flags
                       
