@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_helper'
 
 RSpec.describe ResponsesController, :type => :controller do
   include Devise::TestHelpers
@@ -14,64 +14,52 @@ RSpec.describe ResponsesController, :type => :controller do
     FactoryGirl.create :question
   end
   
-  describe "GET index" do
-    it "returns http success" do
-      get :index
-      expect(response).to have_http_status(:success)
-    end
-  end
-
   describe "GET show" do
-    it "returns http success" do
-      get :show
-      expect(response).to have_http_status(:success)
+    ControllerMacros::ALL_ROLES.each do |r|
+      context "as #{r}" do
+      login_as r
+      let(:my_response){Response.first}
+      subject(:get_show) {get :show, :id => my_response.id}
+
+        it "returns http success" do
+          get_show
+          expect(response).to have_http_status(:success)
+        end
+
+        it "pulls the response" do
+          get_show
+          expect(assigns(:response)).to eq(my_response)
+        end
+
+      end
     end
   end
 
-  describe "GET new" do
-    it "returns http success" do
-      get :new
-      expect(response).to have_http_status(:success)
-    end
-  end
 
   describe "POST create success" do
-    it "redirects to index" do
-      get :create
-      expect(response).to have_http_status(:success)
-    end
-  end
+    ControllerMacros::ALL_ROLES.each do |r|
+      context "as #{r}" do
+      login_as r
 
-  describe "POST create fail" do
-    it "ret"
-  end
+      let(:response_params) {FactoryGirl.attributes_for :response}
+      subject(:post_create) {post :create, :response => response_params}
 
-  describe "GET edit" do
-    it "returns http success" do
-      get :edit
-      expect(response).to have_http_status(:success)
-    end
-  end
+      it "redirects to question page" do
+        post_create
+        expect(response).to redirect_to(question_path)
+      end
 
-  describe "GET update" do
-    it "returns http success" do
-      get :update
-      expect(response).to have_http_status(:success)
-    end
-  end
+      it "saves response" do
+      end
 
-  describe "GET delete" do
-    it "returns http success" do
-      get :delete
-      expect(response).to have_http_status(:success)
-    end
-  end
+      it "pulls parent question" do
+      end
 
-  describe "GET destroy" do
-    it "returns http success" do
-      get :destroy
-      expect(response).to have_http_status(:success)
-    end
+      it "pulls sybling responses" do
+      end
+
+      end
+    end    
   end
 
 end

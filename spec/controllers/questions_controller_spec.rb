@@ -73,7 +73,6 @@ RSpec.describe QuestionsController, :type => :controller do
         it "renders the show view" do
           get_show
           expect(response).to render_template("show")
-
         end
 
         it "pulls all related responses" do
