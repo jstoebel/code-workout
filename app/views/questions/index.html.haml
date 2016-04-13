@@ -3,23 +3,21 @@
 -if @questions.size == 0
   %em = No Questions Found
 -else
-  =link_to "Make New Question", new_question_path, class: "btn btn-default"
-  %table.table.table-striped{ style: "width: 9"}
+  =link_to "Make New Question", new_question_path, class: "btn btn-primary btn-md"
+  %table.table.table-striped{ style: "width: auto"}
     %thead
       %th Title: 
       %th User:
       %th Posted:
     %tbody
       - @questions.each do |question|
-        %tr
-          %td
+        %tr  
+          %td{ style: 'width: 2'}
             = link_to question.title, question
-          %td
+          %td{ style: 'width: 1'}
             = question.user_id
-          %td
+          %td{ style: 'width: 2'}
             = question.created_at.strftime("%m-%d-%Y")
-          %td
-            = link_to "Edit", edit_question_path(question), class: "btn btn-default"
-          %td
-            = form_for question, url: question_path(question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
-              = f.submit 'Delete', class: "btn btn-default" 
+          %td{ style: 'width: 1'}  
+            %input.btn.btn-default{:type => "button", :value => "Edit"}
+            %input.btn.btn-default{:type => "submit", :value => "Delete"}

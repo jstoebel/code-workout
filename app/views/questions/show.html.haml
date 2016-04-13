@@ -2,37 +2,49 @@
 %h1
   =@question.title
 
-- if @question.exercise_id != nil
-  %h2
-    = "Exercise: #{@question.exercise_id}"
+%h3
+  = "Exercise: #{@question.exercise_id}"
 
-- if @question.user_id != nil
-  %h4
-    = "User: #{@question.user_id}"
-
-%table
+%table{ style: "width: auto"}
   %tbody
-    %strong 	
-      =@question.body
-    %p	
-      = "Posted: #{@question.created_at.strftime("%m-%d-%Y")}" 	     
+    .row
+      .col-sm-1
+        %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-loading-text" => " ... ", :type => "button"}
+        %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
+      .col-sm-10 	
+        %h1
+          = @question.body
+      .col-sm-1
+        %input.btn.btn-default{:type => "button", :value => "Edit"}
+        %input.btn.btn-default{:type => "submit", :value => "Delete", url: question_path(@question.id), :onsubmit => "return confirm('Are you sure you want to delete the question?')"}
 
-%table
-  %tbody     
-    %tr
-      %td
-        =link_to "Edit", edit_question_path(@question), class: "btn btn-default"
-      %td
-        =form_for @question, url: question_path(@question.id), method: :delete do |f|
-          = f.submit 'Delete', class: "btn btn-default"
-- if @question.tags != nil	
-  %p
-    = "TAGS: #{@question.tags}"
+%table{ style: "width: auto"}
+  %tbody
+    .row
+      .col-sm-1
+        %p
+          = "User: #{@question.user_id}"
+      .col-sm-2
+        %p
+          = "Posted: #{@question.created_at.strftime("%m-%d-%Y")}"
+      .col-sm-1
+        -if @question.tags != nil
+          %p
+            = "TAGS: #{@question.tags}"
+    .row
+      .col-sm-1 
+        %label{:for => "sel"} Flag:
+      .col-sm-1
+        %select#sel.form-control{ style: ' width: 2 '}
+          %option Duplicate
+          %option Out of topic
+          %option Contains inappropriate language
+
 %h2 Responses:
 - if @responses.size == 0
   %h3 No Responses
 - else
-  %table.table.table-striped{ style: 'width: 9' }
+  %table.table.table-striped{ style: 'width: auto' }
     %thead
       %th Text:
       %th User:     
@@ -49,9 +61,29 @@
 
 =render(:partial => 'application/record_error_messages', :locals => {:record => @response})
 
-%h2 Respond to this question:
 
-= form_for(@response, url: responses_path) do |f|
-  = f.text_area(:text, size: "40x5")
-  = f.hidden_field(:question_id, :value => @question.id)
-  = f.submit "Submit", class: "btn btn-default"
+-# Button trigger modal 
+%button.btn.btn-primary.btn-md{"data-target" => "#myModalHorizontal", "data-toggle" => "modal"}
+  Respond
+-# Modal
+#myModalHorizontal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      -# Modal Header
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+          %span.sr-only 
+            Cancel
+        %h4#myModalLabel.modal-title
+          Your Response
+      -# Modal Body
+      .modal-body
+        %form.form-horizontal{:role => "form"}
+          %textarea#comment.form-control{:rows => "5"}
+      -# Modal Footer
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+          Cancel
+        %button.btn.btn-primary{:type => "button"}
+          Submit
