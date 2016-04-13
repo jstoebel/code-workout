@@ -19,11 +19,13 @@
         .panel-body
           .row
             .col-sm-2
-              %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-id" => @question.id, :type => "button"}
+              %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-id" => @question, :type => "button"}
+                = button_to '+', up_vote_question_path(@question), method: :post
                 = @question.up_vote
               -#%span.votes-count{"data-id" => @question.id}
               -# = @question.up_vote
               %button#testBtnDown.btn.btn-danger.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
+                = button_to '-', down_vote_question_path(@question), method: :post
                 = @question.down_vote
             .col-sm-8
               %p= @question.body

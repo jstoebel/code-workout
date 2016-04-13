@@ -104,25 +104,16 @@ class QuestionsController < ApplicationController
     flash[:success] = "You have successfully deleted the question"    
   end
 
-#  def up_vote
-#   @question=Question.find(params[:id])
-#  @question.up_vote = @question.up_vote + 1
-#  end
-#  def down_vote
-#    @question=Question.find(params[:id])
-#    @question.down_vote = @question.down_vote + 1
-#  end
-
-
   def up_vote
-    @question = Question.find(params[:id])
-    @question.liked_by current_user
+   @question = Question.find(params[:id])
+   @question.increment!(:up_vote)
+   redirect_to question_path
+  end
 
-    if request.xhr?
-      render json: { count: @question.get_likes.size, id: params[:id] }
-    else
-      redirect_to @question
-    end
+  def down_vote
+    @question=Question.find(params[:id])
+    @question.decrement!(:down_vote)
+    redirect_to question_path
   end
 
   private

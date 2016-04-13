@@ -39,8 +39,8 @@ CodeWorkout::Application.routes.draw do
   #for up & down vote
   resources :questions do
     member do
-        put "up_vote", to: "questions#up_vote"
-        put "down_vote", to: "questions#down_vote"
+        post "up_vote", to: "questions#up_vote"
+        post "down_vote", to: "questions#down_vote"
     end
 end
 
