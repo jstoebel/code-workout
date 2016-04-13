@@ -56,9 +56,9 @@ RSpec.describe QuestionsController, :type => :controller do
       context "as #{r}" do
         login_as r
 
+        let(:my_question){ Question.first }
         subject(:get_show){
-          question = Question.first
-          get :show, {:id => question.id}
+          get :show, {:id => my_question.id}
         }
         it "returns http success" do
           get_show
@@ -67,13 +67,23 @@ RSpec.describe QuestionsController, :type => :controller do
         
         it "pulls the right question" do
           get_show
-          expect(assigns(:question)).to eq(Question.find(Question.first.id))
+          expect(assigns(:question)).to eq(Question.find(my_question.id))
         end
 
         it "renders the show view" do
           get_show
           expect(response).to render_template("show")
 
+        end
+
+        it "pulls all related responses" do
+          get_show
+          expect(assigns(:responses)).to eq(my_question.responses)
+        end
+
+        it "makes a new response" do
+          get_show
+          expect(assigns(:response)).to be_a_new(Response)
         end
       end  
     end
