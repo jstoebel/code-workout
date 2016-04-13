@@ -1,5 +1,10 @@
 = render partial: 'layouts/breadcrumb'
+= render :partial => 'questions/search'
+
 %h1 List of Questions
+
+=link_to "Add New Question", new_question_path, class: "btn btn-default"
+
 -if @questions.size == 0
   %em = No Questions Found
 -else
@@ -23,4 +28,3 @@
           %td  
             = form_for question, url: question_path(question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
               = f.submit 'Delete', class: "btn btn-default"
-

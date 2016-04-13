@@ -33,6 +33,7 @@ CodeWorkout::Application.routes.draw do
 
   #for the Q&A forum
   resources :questions
+    post 'questions/search' => 'questions#search', as: :q_search
   resources :responses
 
   get 'sse/feedback_wait'
@@ -67,7 +68,7 @@ CodeWorkout::Application.routes.draw do
     # At the bottom, so the routes above take precedence over existing ids
     
     resources :exercises do
-      resources :questions, :only => [:new]
+      resources :questions, :only => [:new, :index]
     end
 
     # /gym/workouts ...

@@ -6,7 +6,15 @@ class QuestionsController < ApplicationController
 	#Question.all: Sellects all items in the table Question
      #post: All items of the Question table are shown
 	#question#index is rendered
-     @questions = Question.all 
+	if params[:exercise_id]
+		@questions = Question.where(exercise_id: params[:exercise_id]) 
+	else
+		@questions = Question.all
+	end  
+  end
+
+  def search
+    #nothing for now
   end
 
   def show
@@ -43,7 +51,7 @@ class QuestionsController < ApplicationController
       #OR new question is not saved -> render new
     @question = Question.new(safe_assign)
     @question.user_id = current_user.id
-    authorize! :create, @question
+    authorize! :write, @question
 
     if @question.save
       flash[:success] = "Question saved!"
