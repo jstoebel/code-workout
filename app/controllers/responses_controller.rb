@@ -35,8 +35,8 @@ class ResponsesController < ApplicationController
 
   def update
     @response = Response.find(params[:id])
-    @response.assign_attributes(safe_assign)
     authorize! :update, @response
+    @response.assign_attributes(safe_assign)
     if @response.save
       flash[:success] = "Response edit saved!"
       redirect_to question_path(@response.question.id)
@@ -55,7 +55,7 @@ class ResponsesController < ApplicationController
     @response = Response.find(params[:id])
     authorize! :destroy, @response
     @response.destroy
-    redirect_to questions_path(@response.question_id)
+    redirect_to question_path(@response.question_id)
     flash[:success] = "You have successfully deleted the response"    
   end
 
