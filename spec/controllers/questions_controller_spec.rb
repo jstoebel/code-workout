@@ -337,7 +337,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
         subject(:post_update) { post :update, update_params }
 
-        it "returns https success" do
+        it "redirects to root path" do
           post_update
           expect(response).to redirect_to(root_path)
         end
@@ -352,7 +352,7 @@ RSpec.describe QuestionsController, :type => :controller do
     end
   end
 
-  describe "POST update fail param" do
+  describe "POST update fail bad param" do
     (ControllerMacros::ALL_ROLES - ["administrator"]).each do |r|
       context "as #{r}" do
         login_as r
