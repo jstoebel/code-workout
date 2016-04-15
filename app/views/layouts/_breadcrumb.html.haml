@@ -60,25 +60,13 @@
       %li.active= @organization.abbreviation
 
   - elsif @question || @questions
-    %li= link_to 'Q&A forum', questions_path
-    - currnet_action = params[:action] 
-    - title = ' '    
+    %li= link_to 'Q&A forum', questions_path   
     - if @responses     
-      - count = 0 
-      - @question.title.split('').each do |i|
-        - title << i
-        - if i != " "
-          - count += 1
-        - if count > 15
-          - title << '...'
-          - break
-      %li.active #{title}
-    
+      %li.active= @title
     - elsif @new
       %li.active New
-
     - elsif @edit
-      %li= link_to @question.title, question_path
+      %li= link_to @title, question_path
       %li.active Edit 
 
   - else

@@ -1,6 +1,7 @@
 %ol.breadcrumb
   %li
     = link_to 'Home', root_path
+  - current_controller = params[:controller]
   - if @workout
     - flag1 = true
     - if @workout.course_offerings.any?
@@ -58,29 +59,23 @@
     - else
       %li.active= @organization.abbreviation
 
-  - elsif @edit
-    %li= link_to 'Q&A forum', questions_path
-    %li.active Edit
-
-  - elsif @new
-    %li= link_to 'Q&A forum', questions_path
-    %li.active New
-
-  - elsif 
+  - elsif #{current_controller} == Question
+    %li= link_to 'QnA forum', questions_path
+    - currnet_action = params[:action] 
     - title = ''   
-    - if !@responses 
-      - title = 'Q&A forum'
-    - else
-      %li= link_to 'Q&A forum', questions_path
+    - if #{current_action} ==  
       - count = 0
-      - @question.title.split('').each do |i|
+      - @questions.title.split('').each do |i|
         - title << i
         - if i != " "
           - count += 1
         - if count > 15
           - title << '...'
           - break
-    %li.active #{title}
- 
+      %li.active #{title}
+    - if #{current_action} == New
+      - title = 'New'
+    - if #{current_action} == Edit
+      - title = 'Edit'
   - else
     %li= link_to 'Gym', gym_path 

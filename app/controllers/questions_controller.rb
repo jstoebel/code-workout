@@ -6,11 +6,11 @@ class QuestionsController < ApplicationController
 	#Question.all: Sellects all items in the table Question
      #post: All items of the Question table are shown
 	#question#index is rendered
-	if params[:exercise_id]
-		@questions = Question.where(exercise_id: params[:exercise_id]) 
-	else
-		@questions = Question.all
-	end  
+    if params[:exercise_id]
+      @questions = Question.where(exercise_id: params[:exercise_id]) 
+    else
+      @questions = Question.all
+    end  
   end
 
   def search
@@ -27,6 +27,18 @@ class QuestionsController < ApplicationController
     authorize! :read, @question
     @responses = Response.all.where(question_id: params[:id])
     @response = Response.new
+    @title = ''
+    count = 0
+    @question.title.split('').each do |i|    
+      @title << i
+      if i != " "
+        count += 1
+      end
+      if count > 15
+        @title << '...'
+        break
+      end
+    end
   end
 
   def new
