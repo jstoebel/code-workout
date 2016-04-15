@@ -1,4 +1,6 @@
 = render partial: 'layouts/breadcrumb'
+= render :partial => 'questions/search'
+
 %h1
   =@question.title
 
@@ -8,14 +10,12 @@
 %table{ style: "width: auto"}
   %tbody
     .row
-      .col-sm-1
+      .col-sm-2
         %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-loading-text" => " ... ", :type => "button"}
         %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
-      .col-sm-9 	
+      .col-sm-5 	
         %h1= @question.body
-      .col-sm-1
         %td= link_to "Edit", edit_question_path(@question), class: "btn btn-default"        
-      .col-sm-0.25  
         %td
           = form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
             = f.submit 'Delete', class: "btn btn-default"
