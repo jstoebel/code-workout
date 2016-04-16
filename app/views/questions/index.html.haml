@@ -1,12 +1,8 @@
-= render :partial => 'questions/search'
-
 %h1 List of Questions
-
-=link_to "Add New Question", new_question_path, class: "btn btn-default"
-
 -if @questions.size == 0
 	%em = No Questions Found
 -else
+	=link_to "New", new_question_path, class: "btn btn-default"
 
 	%table
 		%r

@@ -298,7 +298,6 @@ GEM
       multi_json
       nokogiri
       uber (~> 0.0.7)
-    request-log-analyzer (1.13.4)
     responders (1.1.1)
       railties (>= 3.2, < 4.2)
     rspec-core (3.1.5)
@@ -431,7 +430,6 @@ DEPENDENCIES
   redcarpet
   remotipart
   representable
-  request-log-analyzer
   responders (~> 1.1)
   rspec-rails
   sass-rails
@@ -446,4 +444,4 @@ DEPENDENCIES
   wannabe_bool
 
 BUNDLED WITH
-   1.11.2
+   1.10.5
