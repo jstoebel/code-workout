@@ -6,15 +6,7 @@ class QuestionsController < ApplicationController
 	#Question.all: Sellects all items in the table Question
      #post: All items of the Question table are shown
 	#question#index is rendered
-	if params[:exercise_id]
-		@questions = Question.where(exercise_id: params[:exercise_id]) 
-	else
-		@questions = Question.all
-	end  
-  end
-
-  def search
-    #nothing for now
+	@questions = Question.all
   end
 
   def show
@@ -42,7 +34,7 @@ class QuestionsController < ApplicationController
     @question = Question.new({
       :exercise_id => params[:exercise_id]
       })
-    authorize! :write, @question
+    authorize! :create, @question
   end
 
   def create
@@ -53,7 +45,7 @@ class QuestionsController < ApplicationController
       #OR new question is not saved -> render new
     @question = Question.new(safe_assign)
     @question.user_id = current_user.id
-    authorize! :write, @question
+    authorize! :create, @question
 
     if @question.save
       flash[:success] = "Question saved!"
@@ -65,7 +57,18 @@ class QuestionsController < ApplicationController
     #@flag=Question.new(question_id,)
 
   end
+  def post_flag
+    @question=Question.find(params[:id])
+    @question.flags.assign_attributes(safe_assign)
+    if @question.flags.save
+      flash[:success]="Flag saved!"
+      redirect_to question_path(@question.id)
+    else
+      flash[:error] ="Error updating flag."
+      render 'edit'
+    end
 
+  end
 
   def edit
     #pre:
@@ -110,28 +113,9 @@ class QuestionsController < ApplicationController
     flash[:success] = "You have successfully deleted the question"    
   end
 
-  def up_vote
-   @question = Question.find(params[:id])
-   @question.increment!(:up_vote)
-   redirect_to question_path
-   #respond_to do |format|
-   # @question.increment!(:up_vote)
-    #format.html { redirect_to @question, notice: 'Cool'}
-   # format.json{ render :show, status: :created, location: @question } 
-    #format.js
-   #redirect_to question_path
-   # end
-  end
-
-  def down_vote
-    @question=Question.find(params[:id])
-    @question.decrement!(:down_vote)
-    redirect_to question_path
-  end
-
   private
   def safe_assign
-    params.require(:question).permit(:title, :body, :tags, :exercise_id, :up_vote, :down_vote, :flags)
+    params.require(:question).permit(:title, :body, :tags, :exercise_id, :flags)
   end
 
 end
