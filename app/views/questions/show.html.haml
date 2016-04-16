@@ -1,12 +1,6 @@
-!!!
-%html{:lang => "en"}
-  %head
-    %title Bootstrap Case
-    %meta{:charset => "utf-8"}/
-    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
-    %link{:href => "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", :rel => "stylesheet"}/
-    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"}
-    %script{:src => "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"}
+#ajax
+  = render 'layouts/breadcrumb'
+
   %body
     .container
       .panel.panel-info
@@ -19,12 +13,18 @@
         .panel-body
           .row
             .col-sm-2
-              %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-id" => @question, :type => "button"}
+              %button#vote_up.btn.btn-success.glyphicon.glyphicon-thumbs-up{:type => "button"}
                 = button_to '+', up_vote_question_path(@question), method: :post
                 = @question.up_vote
+              -#%form#vote_up{"accept-charset" => "UTF-8", :action => "", "data-remote" => "true", :method => ""}
+              -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-up.btn-success{:onclick => "up_vote()", :type => "submit"}
+              -#    = @question.up_vote
               -#%span.votes-count{"data-id" => @question.id}
               -# = @question.up_vote
-              %button#testBtnDown.btn.btn-danger.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
+              -#%form{:action => ""}
+              -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-down.btn-danger{:onchange => "showCustomer(this.value)", :type => "submit"}
+              -#  = @question.down_vote
+              %button#vote_down.btn.btn-danger.glyphicon.glyphicon-thumbs-down{:type => "button"}
                 = button_to '-', down_vote_question_path(@question), method: :post
                 = @question.down_vote
             .col-sm-8
@@ -35,7 +35,7 @@
                 %option Duplicate
                 %option Out of topic
                 %option Contains inappropriate language
-
+          %br/
           .container
             .row
               .col-sm-2

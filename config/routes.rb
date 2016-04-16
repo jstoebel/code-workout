@@ -37,12 +37,14 @@ CodeWorkout::Application.routes.draw do
   resources :responses
 
   #for up & down vote
+
   resources :questions do
     member do
         post "up_vote", to: "questions#up_vote"
         post "down_vote", to: "questions#down_vote"
     end
 end
+
 
   get 'sse/feedback_wait'
   # get 'sse/feedback_update'
