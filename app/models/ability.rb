@@ -95,8 +95,7 @@ class Ability
   def process_instructor(user)
     if user.global_role.is_instructor?
 
-      can :approve_duplicate, Question
-      
+
       if !user.global_role.can_manage_all_courses?
         # FIXME: The exercise/workout permissions need to be role-based
         # with respect to the course offering, rather than depending on the
@@ -168,7 +167,6 @@ class Ability
 #        ((o.opening_date == nil) || (o.opening_date <= now)) &&
 #          o.course_offering.course_enrollments.where(user_id: user.id).any?
       end
-      can [:review], WorkoutOffering, course_offering: {course_enrollments: {user: user, course_role: {can_manage_assignments: true}}}
       can [:practice], WorkoutOffering do |o|
         o.can_be_seen_by? user
 #        now = Time.now
@@ -217,7 +215,7 @@ class Ability
       can :read, Attempt, workout_score:
         { workout_offering:
           { course_offering:
-            { course_enrollments:
+            { course_enrollment:
               { user: user, course_role:
                 { can_manage_assignments: true } } } } }
       can [:create, :read], Attempt, user: user

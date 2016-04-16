@@ -125,8 +125,3 @@
       = render partial: 'sse/ajax_feedback'
   - else
     #exercisefeedback{style: 'display: none;'}
-
-%h2 Q&A Forum:
-%br/
-=link_to "Post Question About This Exercise", new_exercise_question_path(:exercise_id => @exercise.id ), class: "btn btn-default"
-=link_to "View All Questions About This Exercise", exercise_questions_path(:exercise_id => @exercise.id ), class: "btn btn-default"
