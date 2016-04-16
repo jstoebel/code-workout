@@ -33,7 +33,16 @@ CodeWorkout::Application.routes.draw do
 
   #for the Q&A forum
   resources :questions
+    post 'questions/search' => 'questions#search', as: :q_search
   resources :responses
+
+  #for up & down vote
+  resources :questions do
+    member do
+        post "up_vote", to: "questions#up_vote"
+        post "down_vote", to: "questions#down_vote"
+    end
+end
 
   get 'sse/feedback_wait'
   # get 'sse/feedback_update'
@@ -67,7 +76,7 @@ CodeWorkout::Application.routes.draw do
     # At the bottom, so the routes above take precedence over existing ids
     
     resources :exercises do
-      resources :questions, :only => [:new]
+      resources :questions, :only => [:new, :index]
     end
 
     # /gym/workouts ...

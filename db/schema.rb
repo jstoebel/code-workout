@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160302160101) do
+ActiveRecord::Schema.define(version: 20160411161514) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -330,6 +330,8 @@ ActiveRecord::Schema.define(version: 20160302160101) do
     t.integer  "exercise_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "up_vote"
+    t.integer  "down_vote"
   end
 
   create_table "resource_files", force: true do |t|
