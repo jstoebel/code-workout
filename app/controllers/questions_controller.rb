@@ -104,9 +104,28 @@ class QuestionsController < ApplicationController
     flash[:success] = "You have successfully deleted the question"    
   end
 
+  def up_vote
+   @question = Question.find(params[:id])
+   @question.increment!(:up_vote)
+   redirect_to question_path
+   #respond_to do |format|
+   # @question.increment!(:up_vote)
+    #format.html { redirect_to @question, notice: 'Cool'}
+   # format.json{ render :show, status: :created, location: @question } 
+    #format.js
+   #redirect_to question_path
+   # end
+  end
+
+  def down_vote
+    @question=Question.find(params[:id])
+    @question.decrement!(:down_vote)
+    redirect_to question_path
+  end
+
   private
   def safe_assign
-    params.require(:question).permit(:title, :body, :tags, :exercise_id)
+    params.require(:question).permit(:title, :body, :tags, :exercise_id, :up_vote, :down_vote, :flags)
   end
 
 end
