@@ -1,13 +1,15 @@
-$(document).ready ->
-  $('input[type=submit]').on 'click', (event) ->
-    form = $(this).parent('form')
-    even.preventDefault()
-    $.ajax
-      type: 'POST'
-      url: form.attr('action')
-      data: form.serialize()
-      success: (data) ->
-      error: (data) ->
-      dataType: 'JSON'
+$('#ajax').html '<%= escape_javascript(render(:partial => \'layouts/breadcrumb\')).html_safe %>'
+
+$ ->
+$.ajax
+  vote_up = ->
+    xhttp = new XMLHttpRequest
+
+    xhttp.onreadystatechange = ->
+      if xhttp.readyState == 4 and xhttp.status == 200
+        document.getElementById('up_vote').innerHTML = xhttp.responseText
+      return
+
+    xhttp.open 'POST', '/questions', true
+    xhttp.send()
     return
-  return
