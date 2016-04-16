@@ -57,6 +57,18 @@ class QuestionsController < ApplicationController
     #@flag=Question.new(question_id,)
 
   end
+  def post_flag
+    @question=Question.find(params[:id])
+    @question.flags.assign_attributes(safe_assign)
+    if @question.flags.save
+      flash[:success]="Flag saved!"
+      redirect_to question_path(@question.id)
+    else
+      flash[:error] ="Error updating flag."
+      render 'edit'
+    end
+
+  end
 
   def edit
     #pre:
