@@ -108,6 +108,13 @@ class QuestionsController < ApplicationController
    @question = Question.find(params[:id])
    @question.increment!(:up_vote)
    redirect_to question_path
+   #respond_to do |format|
+   # @question.increment!(:up_vote)
+    #format.html { redirect_to @question, notice: 'Cool'}
+   # format.json{ render :show, status: :created, location: @question } 
+    #format.js
+   #redirect_to question_path
+   # end
   end
 
   def down_vote
