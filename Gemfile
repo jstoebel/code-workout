@@ -56,7 +56,6 @@ group :development, :test do
   # gem 'ruby-debug-base'
   # gem 'ruby-debug-ide'
   gem 'pry'
-  gem 'request-log-analyzer'
 end
 gem 'factory_girl_rails'
 gem 'log_file'

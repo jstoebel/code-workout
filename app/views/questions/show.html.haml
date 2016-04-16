@@ -19,14 +19,10 @@
         .panel-body
           .row
             .col-sm-2
-              %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-id" => @question, :type => "button"}
-                = button_to '+', up_vote_question_path(@question), method: :post
-                = @question.up_vote
-              -#%span.votes-count{"data-id" => @question.id}
-              -# = @question.up_vote
-              %button#testBtnDown.btn.btn-danger.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
-                = button_to '-', down_vote_question_path(@question), method: :post
-                = @question.down_vote
+              %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-loading-text" => " ... ", :type => "button"}
+                4
+              %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
+                4
             .col-sm-8
               %p= @question.body
             .col-sm-2
@@ -38,13 +34,13 @@
 
           .container
             .row
-              .col-sm-2
+              .col-sm-1
                 / Button trigger modal
                 %button.btn.btn-primary.btn-md{"data-target" => "#myModalHorizontal", "data-toggle" => "modal"}
                   Respond
                 / Modal
                 #myModalHorizontal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-                  .modal-dialog.modal-lg
+                  .modal-dialog
                     .modal-content
                       / Modal Header
                       .modal-header
@@ -55,24 +51,25 @@
                           Your Response
                       / Modal Body
                       .modal-body
-                        = form_for(@response, url: responses_path) do |f|
-                          %textarea#your-response.form-control{:name => "response[text]", :rows => "10"}
-                          = f.hidden_field(:question_id, :value => @question.id)
-                          / Modal Footer
-                          .modal-footer
-                            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
-                              Cancel
-                            = f.submit "Respond", class: "btn btn-success"
-              .col-sm-2
-                %td= link_to "Edit", edit_question_path(@question), class: "btn btn-md btn-info"
-              .col-sm-1  
+                        %form.form-horizontal{:role => "form"}
+                          %textarea#comment.form-control{:rows => "5"}
+                      / Modal Footer
+                      .modal-footer
+                        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+                          Cancel
+                        %button.btn.btn-primary{:type => "button"}
+                          Submit
+              .col-sm-1
+                %td= link_to "Edit", edit_question_path(@question), class: "btn btn-info"
+                -#%input.btn-info.btn-info{:type => "submit", :value => "Delete"}/
+
+                -#%input.btn.btn-info{:type => "button", :value => "Edit"}/
+              .col-sm-0.25  
                 %td
                   = form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
-                    = f.submit "Delete", class: "btn btn-sm btn-danger"
+                    = submit_tag('Delete')
 
-        .panel-footer{:color => "green"}
-          %h4
-            %strong Responses:
+        .panel-footer Responses
         .container-fluid
           .row
             - if @question.tags != nil  
@@ -86,8 +83,8 @@
                   %td
                     = link_to response.text, response
                   %td
-                    = response.created_at.strftime("%m-%d-%Y")
-                    %br/
-                    %br/
+                    = response.user_id
+                  %td
+                    = response.created_at.strftime("%m-%d-%Y") 
 
             =render(:partial => 'application/record_error_messages', :locals => {:record => @response})
