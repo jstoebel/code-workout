@@ -6,7 +6,12 @@ class CreateQuestions < ActiveRecord::Migration
         t.string :tags
         t.integer :user_id
         t.integer :exercise_id
+<<<<<<< HEAD
         
+=======
+	t.integer :upvote
+	t.integer :downvote
+>>>>>>> 50192a7d44428cb0a637c760b33c1a9486e33aa0
         t.timestamps
     end
     add_foreign_key :questions, :users
