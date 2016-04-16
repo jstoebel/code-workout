@@ -11,7 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160409163140) do
+
+ActiveRecord::Schema.define(version: 20160225005739) do
+
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -226,18 +228,6 @@ ActiveRecord::Schema.define(version: 20160409163140) do
   add_index "exercises", ["external_id"], name: "index_exercises_on_external_id", unique: true
   add_index "exercises", ["is_public"], name: "index_exercises_on_is_public"
 
-  create_table "exercises_workouts", force: true do |t|
-    t.integer  "workout_id",  null: false
-    t.integer  "exercise_id", null: false
-    t.integer  "points"
-    t.integer  "order"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "exercises_workouts", ["exercise_id"], name: "index_exercises_workouts_on_exercise_id"
-  add_index "exercises_workouts", ["workout_id"], name: "index_exercises_workouts_on_workout_id"
-
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
@@ -322,6 +312,7 @@ ActiveRecord::Schema.define(version: 20160409163140) do
   add_index "prompts", ["actable_id"], name: "index_prompts_on_actable_id"
   add_index "prompts", ["exercise_version_id"], name: "index_prompts_on_exercise_version_id"
 
+<<<<<<< HEAD
   create_table "questions", force: true do |t|
     t.string   "title"
     t.string   "body"
@@ -333,6 +324,8 @@ ActiveRecord::Schema.define(version: 20160409163140) do
     t.string   "flags"
   end
 
+=======
+>>>>>>> 50192a7d44428cb0a637c760b33c1a9486e33aa0
   create_table "resource_files", force: true do |t|
     t.string   "filename"
     t.string   "token",                     null: false
@@ -344,14 +337,6 @@ ActiveRecord::Schema.define(version: 20160409163140) do
 
   add_index "resource_files", ["token"], name: "index_resource_files_on_token"
   add_index "resource_files", ["user_id"], name: "index_resource_files_on_user_id"
-
-  create_table "responses", force: true do |t|
-    t.string   "text"
-    t.integer  "user_id"
-    t.integer  "question_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "stems", force: true do |t|
     t.text     "preamble"
@@ -499,9 +484,10 @@ ActiveRecord::Schema.define(version: 20160409163140) do
     t.integer  "continue_from_workout_id"
   end
 
-  add_index "workout_offerings", ["course_offering_id"], name: "index_workout_offerings_on_course_offering_id"
-  add_index "workout_offerings", ["workout_id"], name: "index_workout_offerings_on_workout_id"
-  add_index "workout_offerings", ["workout_policy_id"], name: "index_workout_offerings_on_workout_policy_id"
+  add_index "workout_offerings", ["continue_from_workout_id"], name: "workout_offerings_continue_from_workout_id_fk", using: :btree
+  add_index "workout_offerings", ["course_offering_id"], name: "index_workout_offerings_on_course_offering_id", using: :btree
+  add_index "workout_offerings", ["workout_id"], name: "index_workout_offerings_on_workout_id", using: :btree
+  add_index "workout_offerings", ["workout_policy_id"], name: "index_workout_offerings_on_workout_policy_id", using: :btree
 
   create_table "workout_owners", force: true do |t|
     t.integer "workout_id", null: false
