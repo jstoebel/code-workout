@@ -58,9 +58,9 @@ class Exercise < ActiveRecord::Base
   has_many :owners, through: :exercise_owners
   belongs_to :current_version, class_name: 'ExerciseVersion'
   belongs_to :irt_data, dependent: :destroy
+  has_many :questions
 
   accepts_nested_attributes_for :exercise_versions, allow_destroy: true
-
 
   #~ Hooks ....................................................................
 
@@ -209,7 +209,6 @@ class Exercise < ActiveRecord::Base
       (current_version && current_version.prompts.first) ?
         current_version.question_type : Q_MC
     self.name ||= ''
-    self.is_public ||= true
     self.experience ||= 10
   end
 

@@ -33,6 +33,16 @@ CodeWorkout::Application.routes.draw do
 
   #for the Q&A forum
   resources :questions
+    post 'questions/search' => 'questions#search', as: :q_search
+    #patch 'questions/update' => 'questions#update', as: :q_update
+
+    #post 'questions/post_flag' => 'questions#post_flag', as: :q_flag
+    #get "/questions/post_flag " => "questions#post_flag", :as => 'post_flag'
+  #resources :questions do 
+    #collection do
+      #patch 'post_flag'
+    #end
+  #end
   resources :responses
 
   get 'sse/feedback_wait'
@@ -67,7 +77,7 @@ CodeWorkout::Application.routes.draw do
     # At the bottom, so the routes above take precedence over existing ids
     
     resources :exercises do
-      resources :questions, :only => [:new]
+      resources :questions, :only => [:new, :index]
     end
 
     # /gym/workouts ...

@@ -1,3 +1,4 @@
+
 %html{:lang => "en"}
   %head
     %title Bootstrap Case
@@ -20,6 +21,7 @@
           .row
             .col-sm-2
               %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-loading-text" => " ... ", :type => "button"}
+
                 =@question.up_vote
               %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
                 =@question.down_vote
@@ -28,24 +30,25 @@
 
 
 
-            .col-sm-1
+            .col-sm-2
              
                  
               =form_for @question, url: question_path(@question.id) do |f|
 
                             
-                =f.label "Flag:"
-                =f.select(:flags, options_for_select([['select one',''],['Duplicate', 'Duplicate'], ['Off Topic', 'Off Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]), {}, {:style => "max-width: 100px;"})
+                
+                =f.select(:flags, options_for_select([['Flag',''],['Duplicate', 'Duplicate'], ['Off Topic', 'Off Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]), {}, {:style => "max-width: 100px;"})
                 
                 =f.submit 'Submit', url: question_path(@question.id), class: 'btn-default'
 
                 
 
                 
-            .col-sm-3			            	    
+            .col-sm-2			            	    
 			    	
               =@question.flags
                       
+
           .container
             .row
               .col-sm-1

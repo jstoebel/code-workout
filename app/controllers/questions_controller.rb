@@ -6,7 +6,15 @@ class QuestionsController < ApplicationController
 	#Question.all: Sellects all items in the table Question
      #post: All items of the Question table are shown
 	#question#index is rendered
-	@questions = Question.all
+	if params[:exercise_id]
+		@questions = Question.where(exercise_id: params[:exercise_id]) 
+	else
+		@questions = Question.all
+	end  
+  end
+
+  def search
+    #nothing for now
   end
 
   def show
@@ -34,7 +42,7 @@ class QuestionsController < ApplicationController
     @question = Question.new({
       :exercise_id => params[:exercise_id]
       })
-    authorize! :create, @question
+    authorize! :write, @question
   end
 
   def create
@@ -45,7 +53,7 @@ class QuestionsController < ApplicationController
       #OR new question is not saved -> render new
     @question = Question.new(safe_assign)
     @question.user_id = current_user.id
-    authorize! :create, @question
+    authorize! :write, @question
 
     if @question.save
       flash[:success] = "Question saved!"
@@ -57,18 +65,7 @@ class QuestionsController < ApplicationController
     #@flag=Question.new(question_id,)
 
   end
-  def post_flag
-    @question=Question.find(params[:id])
-    @question.flags.assign_attributes(safe_assign)
-    if @question.flags.save
-      flash[:success]="Flag saved!"
-      redirect_to question_path(@question.id)
-    else
-      flash[:error] ="Error updating flag."
-      render 'edit'
-    end
 
-  end
 
   def edit
     #pre:
