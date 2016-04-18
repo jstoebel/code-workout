@@ -1,1 +1,17 @@
-%h1 SEARCH BAR
+= form_tag controller: "/questions", action: "search", method: "get",
+  class: "search" do
+  .row.search
+    %div{ style: "width: 25%; float: center; padding-left: 25px;" }
+      = text_field_tag :search, params[:search], id: "search_field",
+        class: "input input-medium form-control col-md-8 search-query",
+        placeholder: "search questions...",
+        style: "vertical-align: top;"
+      = select_tag "Exercises", options_from_collection_for_select(exercises, "id", "name")
+      %select#obj_test{:name => "obj[test]"}
+        = for t in tags.each
+          %option{:value => t}= t
+    %div{ style: "float: left;" }
+      = content_tag :button, type: :submit, class: "btn btn-inverse btn-sm" do
+        %i.fa.fa-search
+        Search
+

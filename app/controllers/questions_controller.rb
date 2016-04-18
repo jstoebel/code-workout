@@ -6,6 +6,29 @@ class QuestionsController < ApplicationController
 	#Question.all: Sellects all items in the table Question
      #post: All items of the Question table are shown
 	#question#index is rendered
+
+        @exercises = Exercise.all.where(is_public: true)
+        @all_tags = Question.uniq.pluck(:tags)
+        @tags = []
+       
+        #SORT THE TAGS BEFORE DISPLAYING ANDDDDDD FILTER WITH AJAX AND TYPING STUFF        
+        @all_tags.each do |t|
+          if t != ""
+            @a = t.split('; ')
+            @a.each do |a|
+              @boo = false
+              @tags.each do |x|
+                if x == a
+                  @boo = true
+                end
+              end
+              if @boo == false
+                @tags << a
+              end
+            end 
+          end
+        end
+
 	if params[:exercise_id]
 		@questions = Question.where(exercise_id: params[:exercise_id]) 
 	else
