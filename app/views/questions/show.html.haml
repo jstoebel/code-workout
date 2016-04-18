@@ -1,5 +1,7 @@
 
-
+#ajax
+  = render 'layouts/breadcrumb'
+  %body
     .container
       .panel.panel-info
         .panel-heading
@@ -11,29 +13,46 @@
         .panel-body
           .row
             .col-sm-2
-              %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-loading-text" => " ... ", :type => "button"}
-                4
-              %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
-                4
-            .col-sm-8
+              %button#vote_up.btn.btn-success.glyphicon.glyphicon-thumbs-up{:type => "button"}
+                = button_to '+', up_vote_question_path(@question), method: :post
+                = @question.up_vote
+              -#%form#vote_up{"accept-charset" => "UTF-8", :action => "", "data-remote" => "true", :method => ""}
+              -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-up.btn-success{:onclick => "up_vote()", :type => "submit"}
+              -#    = @question.up_vote
+              -#%span.votes-count{"data-id" => @question.id}
+              -# = @question.up_vote
+              -#%form{:action => ""}
+              -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-down.btn-danger{:onchange => "showCustomer(this.value)", :type => "submit"}
+              -#  = @question.down_vote
+              %button#vote_down.btn.btn-danger.glyphicon.glyphicon-thumbs-down{:type => "button"}
+                = button_to '-', down_vote_question_path(@question), method: :post
+                = @question.down_vote
+            .col-sm-6
               %p= @question.body
+            .col-sm-2                       
+            
+              =@question.flags
 
-            .col-sm-2          
-              %label{:for=>"sel"} Flag:
-              %select#sel.form-control
-                %option{:value=>"Duplicate"} Duplicate
-                %option{:value=>"Out of Topic"} Out of Topic
-                %option{:value=>"Contains inappropriate langauge"} Contains inappropriate language 			            	    
-			    	            
+            .col-sm-2             
+                 
+              =form_for @question, url: question_path(@question.id) do |f|                            
+                
+                =f.select(:flags, options_for_select([['Flag',''],['Duplicate', 'Duplicate'], ['Off Topic', 'Off Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]), {}, {:style => "max-width: 100px;"})
+                
+                =f.submit 'Submit', url: question_path(@question.id), class: 'btn-default'
+          
+
+          %br/
+
           .container
             .row
-              .col-sm-1
+              .col-sm-2
                 / Button trigger modal
                 %button.btn.btn-primary.btn-md{"data-target" => "#myModalHorizontal", "data-toggle" => "modal"}
                   Respond
                 / Modal
                 #myModalHorizontal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-                  .modal-dialog
+                  .modal-dialog.modal-lg
                     .modal-content
                       / Modal Header
                       .modal-header
@@ -44,25 +63,24 @@
                           Your Response
                       / Modal Body
                       .modal-body
-                        %form.form-horizontal{:role => "form"}
-                          %textarea#comment.form-control{:rows => "5"}
-                      / Modal Footer
-                      .modal-footer
-                        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
-                          Cancel
-                        %button.btn.btn-primary{:type => "button"}
-                          Submit
-              .col-sm-1
-                %td= link_to "Edit", edit_question_path(@question), class: "btn btn-info"
-                -#%input.btn-info.btn-info{:type => "submit", :value => "Delete"}/
-
-                -#%input.btn.btn-info{:type => "button", :value => "Edit"}/
-              .col-sm-0.25  
+                        = form_for(@response, url: responses_path) do |f|
+                          %textarea#your-response.form-control{:name => "response[text]", :rows => "10"}
+                          = f.hidden_field(:question_id, :value => @question.id)
+                          / Modal Footer
+                          .modal-footer
+                            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+                              Cancel
+                            = f.submit "Respond", class: "btn btn-success"
+              .col-sm-2
+                %td= link_to "Edit", edit_question_path(@question), class: "btn btn-md btn-info"
+              .col-sm-1  
                 %td
                   = form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
-                    = submit_tag('Delete')
+                    = f.submit "Delete", class: "btn btn-sm btn-danger"
 
-        .panel-footer Responses
+        .panel-footer{:color => "green"}
+          %h4
+            %strong Responses:
         .container-fluid
           .row
             - if @question.tags != nil  
@@ -76,9 +94,9 @@
                   %td
                     = link_to response.text, response
                   %td
-                    = response.user_id
-                  %td
-                    = response.created_at.strftime("%m-%d-%Y") 
+                    = response.created_at.strftime("%m-%d-%Y")
+                    %br/
+                    %br/
 
 
 
