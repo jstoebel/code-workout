@@ -80,6 +80,18 @@ class QuestionsController < ApplicationController
     #post:
       #edit view is rendered
     @question = Question.find(params[:id])
+    @title = ""
+    count = 0
+    @question.title.split('').each do |i|
+      @title << i
+      if i != " "
+        count += 1
+      end
+      if count > 15
+        @title << '...'
+        break
+      end
+    end
     @edit = true
     authorize! :edit, @question
   end
