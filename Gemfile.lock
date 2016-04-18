@@ -143,6 +143,7 @@ GEM
       rails (>= 3.1)
     csv_shaper (1.1.1)
       activesupport (>= 3.0.0)
+    database_cleaner (1.5.1)
     devise (3.4.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -397,6 +398,7 @@ DEPENDENCIES
   coffee-script-source
   css3-progress-bar-rails
   csv_shaper
+  database_cleaner (~> 1.5, >= 1.5.1)
   devise
   exception_handler
   factory_girl_rails
