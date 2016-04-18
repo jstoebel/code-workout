@@ -1,13 +1,17 @@
 class ReviewController < ApplicationController
 	def index
-		@flags = Question.where.not(:flags => nil)
+		@flag = Question.where.not(:flags => nil)
 	end
 
 	def show
-		@flags = Question.find(params[:id])
+		@flag = Question.find(params[:id])
 	end
 
 	def dismiss
+		@flag = Question.find(params[:id])
+		@flag.flags = nil 
+		@dup = Duplicates.where(:current_question_id => @flag.id)
+		@dup.destroy
 	end
 
 	def approve

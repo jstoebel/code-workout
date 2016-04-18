@@ -34,7 +34,10 @@ CodeWorkout::Application.routes.draw do
   #for the Q&A forum
   resources :questions
   resources :responses
-  resources :review
+  resources :review do
+    post "dismiss"
+  end
+
 
   get 'sse/feedback_wait'
   # get 'sse/feedback_update'

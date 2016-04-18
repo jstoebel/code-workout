@@ -1,5 +1,5 @@
 %h1 List of Flagged Questions
--if @flags.size == 0
+-if @flag.size == 0
 	%em = No Flagged Questions Found
 -else
 	
@@ -10,10 +10,12 @@
 			%th Author:
 			%th Report:
 			%th Posted:
-		- @flags.each do |f|
+			%th Action:
+		- @flag.each do |f|
 			%tr
 				%td= link_to f.title, f
 				%td= User.find(f.user_id).first_name
 				%td= Question.find(f.id).flags
 				%td= f.created_at.strftime("%m-%d-%Y")
+				%td= select_tag(:flags, review_dismiss_path(f.id), options_for_select([['Approve', true], ['Deny', nil]]),:onchange => "this.form.submit()")
 
