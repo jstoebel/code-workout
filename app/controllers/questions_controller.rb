@@ -23,6 +23,7 @@ class QuestionsController < ApplicationController
       #params[:id] (optional): The exercise this resqonses should be associated with
     #post: The sellected item of the Question table is shown along with any optional items sellected from the Response table
       #question#show is rendered
+    
     @question = Question.find(params[:id])
     authorize! :read, @question
     @responses = Response.all.where(question_id: params[:id])
@@ -103,12 +104,13 @@ class QuestionsController < ApplicationController
       #the question object is saved -> redirect to index
       #OR new question is not saved -> render edit
     @question = Question.find(params[:id])
+    authorize! :update, @question
+
     @question.assign_attributes(safe_assign)
 
-    authorize! :update, @question
     if @question.save
       flash[:success] = "Question saved!"
-      redirect_to questions_path
+      redirect_to question_path
     else
       flash[:error] = "Error updating question."
       render 'edit'      
@@ -129,9 +131,30 @@ class QuestionsController < ApplicationController
     flash[:success] = "You have successfully deleted the question"    
   end
 
+  def up_vote
+   @question = Question.find(params[:id])
+   @question.increment!(:up_vote)
+   redirect_to question_path
+   #respond_to do |format|
+   # @question.increment!(:up_vote)
+    #format.html { redirect_to @question, notice: 'Cool'}
+   # format.json{ render :show, status: :created, location: @question } 
+    #format.js
+   #redirect_to question_path
+   # end
+  end
+
+  def down_vote
+    @question=Question.find(params[:id])
+    @question.decrement!(:down_vote)
+    redirect_to question_path
+  end
+
   private
   def safe_assign
-    params.require(:question).permit(:title, :body, :tags, :exercise_id)
+
+    params.require(:question).permit(:title, :body, :tags, :exercise_id, :up_vote, :down_vote, :flags)
+
   end
 
 end

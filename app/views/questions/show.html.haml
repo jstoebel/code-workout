@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+#ajax
 = render partial: 'layouts/breadcrumb'
 = render :partial => 'questions/search'
 
@@ -11,14 +13,32 @@
   %tbody
     .row
       .col-sm-2
-        %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-loading-text" => " ... ", :type => "button"}
-        %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
-      .col-sm-5 	
+        %button#vote_up.btn.btn-success.glyphicon.glyphicon-thumbs-up{:type => "button"}
+          = button_to '+', up_vote_question_path(@question), method: :post
+          = @question.up_vote
+        -#%form#vote_up{"accept-charset" => "UTF-8", :action => "", "data-remote" => "true", :method => ""}
+        -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-up.btn-success{:onclick => "up_vote()", :type => "submit"}
+        -#    = @question.up_vote
+        -#%span.votes-count{"data-id" => @question.id}
+        -# = @question.up_vote
+        -#%form{:action => ""}
+        -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-down.btn-danger{:onchange => "showCustomer(this.value)", :type => $
+        -#  = @question.down_vote
+        %button#vote_down.btn.btn-danger.glyphicon.glyphicon-thumbs-down{:type => "button"}
+          = button_to '-', down_vote_question_path(@question), method: :post
+          = @question.down_vote
+      .col-sm-2 	
         %h1= @question.body
         %td= link_to "Edit", edit_question_path(@question), class: "btn btn-default"        
         %td
           = form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
             = f.submit 'Delete', class: "btn btn-default"
+      .col-sm-2                           
+        =@question.flags
+      .col-sm-2             
+        =form_for @question, url: question_path(@question.id) do |f|                            
+          =f.select(:flags, options_for_select([['Flag',''],['Duplicate', 'Duplicate'], ['Off Topic', 'Off Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]), {}, {:style => "max-width: 100px;"})      
+          =f.submit 'Submit', url: question_path(@question.id), class: 'btn-default'
 
 %table{ style: "width: auto"}
   %tbody
@@ -75,7 +95,7 @@
       .modal-header
         %button.close{"data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
-          %span.sr-only 
+          %span.sr-only
             Cancel
         %h4#myModalLabel.modal-title
           Your Response
@@ -87,5 +107,4 @@
       .modal-footer
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
           Cancel
-        %button.btn.btn-primary{:type => "button"}
-          Submit
+        = f.submit "Respond", class: "btn btn-success"
