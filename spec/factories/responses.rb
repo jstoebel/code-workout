@@ -3,5 +3,6 @@
 FactoryGirl.define do
   factory :response do
     text "This is the text of a response \n its just a sample."
+    question
   end
 end
