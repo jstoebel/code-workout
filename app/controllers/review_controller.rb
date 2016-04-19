@@ -15,6 +15,11 @@ class ReviewController < ApplicationController
 	end
 
 	def approve
+		@flag = Question.find(params[:id])
+		@flag.flags = true 
+		@dup = Duplicates.where(:current_question_id => @flag.id)
+		@dup.approved = true
+		@dup.current_question_id = @flag.id
 	end
 
 	def new

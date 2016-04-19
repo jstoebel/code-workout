@@ -17,5 +17,5 @@
 				%td= User.find(f.user_id).first_name
 				%td= Question.find(f.id).flags
 				%td= f.created_at.strftime("%m-%d-%Y")
-				%td= select_tag(:flags, review_dismiss_path(f.id), options_for_select([['Approve', true], ['Deny', nil]]),:onchange => "this.form.submit()")
+				%td= select_tag(:flags, options_for_select([['Approve', true], ['Dismiss', nil]])) 
 
