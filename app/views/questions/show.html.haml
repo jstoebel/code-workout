@@ -14,7 +14,7 @@
       .col-sm-2
         %button#vote_up.btn.btn-success.glyphicon.glyphicon-thumbs-up{:type => "button"}
           = button_to '+', up_vote_question_path(@question), method: :post
-          = @question.up_vote
+          = @question.upvote
         -#%form#vote_up{"accept-charset" => "UTF-8", :action => "", "data-remote" => "true", :method => ""}
         -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-up.btn-success{:onclick => "up_vote()", :type => "submit"}
         -#    = @question.up_vote
@@ -25,7 +25,7 @@
         -#  = @question.down_vote
         %button#vote_down.btn.btn-danger.glyphicon.glyphicon-thumbs-down{:type => "button"}
           = button_to '-', down_vote_question_path(@question), method: :post
-          = @question.down_vote
+          = @question.downvote
       .col-sm-2 	
         %h1= @question.body
         %td= link_to "Edit", edit_question_path(@question), class: "btn btn-default"        
