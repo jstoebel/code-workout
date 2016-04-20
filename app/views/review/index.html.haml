@@ -1,0 +1,21 @@
+%h1 List of Flagged Questions
+-if @flag.size == 0
+	%em = No Flagged Questions Found
+-else
+	
+
+	%table
+		%r
+			%th Title: 
+			%th Author:
+			%th Report:
+			%th Posted:
+			%th Action:
+		- @flag.each do |f|
+			%tr
+				%td= link_to f.title, f
+				%td= User.find(f.user_id).first_name
+				%td= Question.find(f.id).flags
+				%td= f.created_at.strftime("%m-%d-%Y")
+				%td= select_tag(:flags, options_for_select([['Approve', true], ['Dismiss', nil]])) 
+

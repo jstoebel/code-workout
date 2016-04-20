@@ -1,4 +1,3 @@
-
 #ajax
   = render 'layouts/breadcrumb'
   %body
@@ -89,7 +88,5 @@
                     = response.created_at.strftime("%m-%d-%Y")
                     %br/
                     %br/
-
-
 
             =render(:partial => 'application/record_error_messages', :locals => {:record => @response})
