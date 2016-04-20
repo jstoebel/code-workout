@@ -4,7 +4,6 @@
 
 %h1
   =@question.title
-
 %h3
   = "Exercise: #{@question.exercise_id}"
 
@@ -14,18 +13,10 @@
       .col-sm-2
         %button#vote_up.btn.btn-success.glyphicon.glyphicon-thumbs-up{:type => "button"}
           = button_to '+', up_vote_question_path(@question), method: :post
-          = @question.upvote
-        -#%form#vote_up{"accept-charset" => "UTF-8", :action => "", "data-remote" => "true", :method => ""}
-        -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-up.btn-success{:onclick => "up_vote()", :type => "submit"}
-        -#    = @question.up_vote
-        -#%span.votes-count{"data-id" => @question.id}
-        -# = @question.up_vote
-        -#%form{:action => ""}
-        -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-down.btn-danger{:onchange => "showCustomer(this.value)", :type => $
-        -#  = @question.down_vote
+          = @question.up_votes.count
         %button#vote_down.btn.btn-danger.glyphicon.glyphicon-thumbs-down{:type => "button"}
           = button_to '-', down_vote_question_path(@question), method: :post
-          = @question.downvote
+          = @question.down_votes.count
       .col-sm-2 	
         %h1= @question.body
         %td= link_to "Edit", edit_question_path(@question), class: "btn btn-default"        
@@ -88,7 +79,7 @@
   Respond
 -# Modal
 #myModalHorizontal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog
+  .modal-dialog.modal-lg
     .modal-content
       -# Modal Header
       .modal-header
@@ -100,10 +91,11 @@
           Your Response
       -# Modal Body
       .modal-body
-        %form.form-horizontal{:role => "form"}
-          %textarea#comment.form-control{:rows => "5"}
-      -# Modal Footer
-      .modal-footer
-        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
-          Cancel
-        = f.submit "Respond", class: "btn btn-success"
+        = form_for(@response, url: responses_path) do |f|
+          %textarea#your-response.form-control{:name => "response[text]", :rows => "10"}
+          = f.hidden_field(:question_id, :value => @question.id)
+          -# Modal Footer
+          .modal-footer
+            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+              Cancel
+            = f.submit "Respond", class: "btn btn-success"
