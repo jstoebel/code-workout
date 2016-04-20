@@ -63,6 +63,7 @@ gem 'log_file'
 
 group :test do
   gem 'capybara'
+  gem 'database_cleaner', '~> 1.5', '>= 1.5.1'
 end
 
 group :production, :staging do

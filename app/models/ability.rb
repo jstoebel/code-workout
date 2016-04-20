@@ -239,7 +239,7 @@ class Ability
 
   def process_qa_forum(user)
     can [:read, :write], [Question, Response]
-    can [:upvote, :mark_duplicate], Question
+    can [:up_vote, :down_vote, :mark_duplicate], Question
     can :crud, [Question, Response], user_id: user.id
   end
 

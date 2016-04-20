@@ -1,6 +1,6 @@
+
 #ajax
   = render 'layouts/breadcrumb'
-
   %body
     .container
       .panel.panel-info
@@ -15,27 +15,27 @@
             .col-sm-2
               %button#vote_up.btn.btn-success.glyphicon.glyphicon-thumbs-up{:type => "button"}
                 = button_to '+', up_vote_question_path(@question), method: :post
-                = @question.up_vote
-              -#%form#vote_up{"accept-charset" => "UTF-8", :action => "", "data-remote" => "true", :method => ""}
-              -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-up.btn-success{:onclick => "up_vote()", :type => "submit"}
-              -#    = @question.up_vote
-              -#%span.votes-count{"data-id" => @question.id}
-              -# = @question.up_vote
-              -#%form{:action => ""}
-              -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-down.btn-danger{:onchange => "showCustomer(this.value)", :type => "submit"}
-              -#  = @question.down_vote
+                = @question.up_votes.count
               %button#vote_down.btn.btn-danger.glyphicon.glyphicon-thumbs-down{:type => "button"}
                 = button_to '-', down_vote_question_path(@question), method: :post
-                = @question.down_vote
-            .col-sm-8
+                = @question.down_votes.count
+            .col-sm-6
               %p= @question.body
-            .col-sm-2
-              %label{:for => "sel"} Flag:
-              %select#sel.form-control
-                %option Duplicate
-                %option Out of topic
-                %option Contains inappropriate language
+            .col-sm-2                       
+            
+              =@question.flags
+
+            .col-sm-2             
+                 
+              =form_for @question, url: question_path(@question.id) do |f|                            
+                
+                =f.select(:flags, options_for_select([['Flag',''],['Duplicate', 'Duplicate'], ['Off Topic', 'Off Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]), {}, {:style => "max-width: 100px;"})
+                
+                =f.submit 'Submit', url: question_path(@question.id), class: 'btn-default'
+          
+
           %br/
+
           .container
             .row
               .col-sm-2
@@ -89,5 +89,7 @@
                     = response.created_at.strftime("%m-%d-%Y")
                     %br/
                     %br/
+
+
 
             =render(:partial => 'application/record_error_messages', :locals => {:record => @response})

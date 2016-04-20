@@ -23,6 +23,7 @@ class QuestionsController < ApplicationController
       #params[:id] (optional): The exercise this resqonses should be associated with
     #post: The sellected item of the Question table is shown along with any optional items sellected from the Response table
       #question#show is rendered
+    
     @question = Question.find(params[:id])
     authorize! :read, @question
     @responses = Response.all.where(question_id: params[:id])
@@ -78,12 +79,13 @@ class QuestionsController < ApplicationController
       #the question object is saved -> redirect to index
       #OR new question is not saved -> render edit
     @question = Question.find(params[:id])
+    authorize! :update, @question
+
     @question.assign_attributes(safe_assign)
 
-    authorize! :update, @question
     if @question.save
       flash[:success] = "Question saved!"
-      redirect_to questions_path
+      redirect_to question_path
     else
       flash[:error] = "Error updating question."
       render 'edit'      
@@ -105,9 +107,14 @@ class QuestionsController < ApplicationController
   end
 
   def up_vote
-   @question = Question.find(params[:id])
-   @question.increment!(:up_vote)
-   redirect_to question_path
+    @question = Question.find(params[:id])
+
+    if @question.up_votes.create(user_id: current_user.id)
+      redirect_to question_path
+    else 
+      flash[:notice] = "You have already up-voted this question!"
+    end
+
    #respond_to do |format|
    # @question.increment!(:up_vote)
     #format.html { redirect_to @question, notice: 'Cool'}
@@ -119,13 +126,19 @@ class QuestionsController < ApplicationController
 
   def down_vote
     @question=Question.find(params[:id])
-    @question.decrement!(:down_vote)
-    redirect_to question_path
+
+    if @question.down_votes.create(user_id: current_user.id)
+      redirect_to question_path
+    else 
+      flash[:notice] = "You have already down-voted this question!"
+    end
   end
 
   private
   def safe_assign
+
     params.require(:question).permit(:title, :body, :tags, :exercise_id, :up_vote, :down_vote, :flags)
+
   end
 
 end
