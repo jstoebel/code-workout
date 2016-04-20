@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20160409163140) do
+=======
+ActiveRecord::Schema.define(version: 20160420145516) do
+>>>>>>> e3672c8d01eaefe4f7bdbd90d1177d492419c690
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -147,6 +151,7 @@ ActiveRecord::Schema.define(version: 20160409163140) do
   add_index "courses", ["organization_id"], name: "index_courses_on_organization_id"
   add_index "courses", ["slug"], name: "index_courses_on_slug"
 
+
   create_table "duplicates", force: true do |t|
     t.text     "duplicate_msg"
     t.boolean  "approved"
@@ -156,6 +161,14 @@ ActiveRecord::Schema.define(version: 20160409163140) do
     t.integer  "duplicated_question_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "down_votes", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "question_id"
+    t.integer  "value"
   end
 
   create_table "errors", force: true do |t|
@@ -457,10 +470,25 @@ ActiveRecord::Schema.define(version: 20160409163140) do
 
   add_index "test_cases", ["coding_prompt_id"], name: "index_test_cases_on_coding_prompt_id"
 
+  create_table "testings", force: true do |t|
+    t.string   "name"
+    t.string   "desc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "time_zones", force: true do |t|
     t.string   "name"
     t.string   "zone"
     t.string   "display_as"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "up_votes", force: true do |t|
+    t.integer  "value"
+    t.integer  "question_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -76,6 +76,12 @@ class User < ActiveRecord::Base
   belongs_to  :current_workout_score, class_name: 'WorkoutScore'
   has_many    :test_case_results, inverse_of: :user, dependent: :destroy
 
+  #Q&A forum:
+  has_many :up_votes, dependent: :destroy
+  has_many :up_voted_questions, through: :votes, source: :question
+  has_many :down_votes, dependent: :destroy
+  has_many :down_voted_questions, through: :votes, source: :question
+
 
   #~ Hooks ....................................................................
 
