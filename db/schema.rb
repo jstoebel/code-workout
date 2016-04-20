@@ -333,6 +333,7 @@ ActiveRecord::Schema.define(version: 20160411161514) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "down_vote"
+    t.string   "flags"
   end
 
   create_table "resource_files", force: true do |t|
