@@ -336,6 +336,8 @@ ActiveRecord::Schema.define(version: 20160420145516) do
     t.string   "tags"
     t.integer  "user_id"
     t.integer  "exercise_id"
+    t.integer  "upvote"
+    t.integer  "downvote"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "flags"
@@ -357,6 +359,8 @@ ActiveRecord::Schema.define(version: 20160420145516) do
     t.string   "text"
     t.integer  "user_id"
     t.integer  "question_id"
+    t.integer  "upvote"
+    t.integer  "downvote"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
