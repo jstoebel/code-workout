@@ -107,9 +107,14 @@ class QuestionsController < ApplicationController
   end
 
   def up_vote
-   @question = Question.find(params[:id])
-   @question.increment!(:up_vote)
-   redirect_to question_path
+    @question = Question.find(params[:id])
+
+    if @question.up_votes.create(user_id: current_user.id)
+      redirect_to question_path
+    else 
+      flash[:notice] = "You have already up-voted this question!"
+    end
+
    #respond_to do |format|
    # @question.increment!(:up_vote)
     #format.html { redirect_to @question, notice: 'Cool'}
@@ -121,8 +126,12 @@ class QuestionsController < ApplicationController
 
   def down_vote
     @question=Question.find(params[:id])
-    @question.decrement!(:down_vote)
-    redirect_to question_path
+
+    if @question.down_votes.create(user_id: current_user.id)
+      redirect_to question_path
+    else 
+      flash[:notice] = "You have already down-voted this question!"
+    end
   end
 
   private

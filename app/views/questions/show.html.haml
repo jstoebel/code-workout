@@ -15,18 +15,10 @@
             .col-sm-2
               %button#vote_up.btn.btn-success.glyphicon.glyphicon-thumbs-up{:type => "button"}
                 = button_to '+', up_vote_question_path(@question), method: :post
-                = @question.up_vote
-              -#%form#vote_up{"accept-charset" => "UTF-8", :action => "", "data-remote" => "true", :method => ""}
-              -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-up.btn-success{:onclick => "up_vote()", :type => "submit"}
-              -#    = @question.up_vote
-              -#%span.votes-count{"data-id" => @question.id}
-              -# = @question.up_vote
-              -#%form{:action => ""}
-              -#  %button#vote_up.btn.glyphicon.glyphicon-thumbs-down.btn-danger{:onchange => "showCustomer(this.value)", :type => "submit"}
-              -#  = @question.down_vote
+                = @question.up_votes.count
               %button#vote_down.btn.btn-danger.glyphicon.glyphicon-thumbs-down{:type => "button"}
                 = button_to '-', down_vote_question_path(@question), method: :post
-                = @question.down_vote
+                = @question.down_votes.count
             .col-sm-6
               %p= @question.body
             .col-sm-2                       
