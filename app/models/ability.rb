@@ -105,6 +105,7 @@ class Ability
           Workout, Exercise, Attempt, ResourceFile]
 
         can [:index], [Workout, Exercise, Attempt, ResourceFile]
+        can :crud, Review 
       end
     end
   end

@@ -35,6 +35,10 @@ CodeWorkout::Application.routes.draw do
   resources :questions
     post 'questions/search' => 'questions#search', as: :q_search
   resources :responses
+  resources :review do
+    post "dismiss"
+  end
+
 
   #for up & down vote
 

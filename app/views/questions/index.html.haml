@@ -18,7 +18,7 @@
           %td{ style: 'width: 2'}
             = link_to question.title, question
           %td{ style: 'width: 1'}
-            = question.user_id
+            = User.find(question.user_id).first_name
           %td{ style: 'width: 2'}
             = question.created_at.strftime("%m-%d-%Y")
           %td

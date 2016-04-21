@@ -155,6 +155,17 @@ ActiveRecord::Schema.define(version: 20160420145516) do
     t.integer  "value"
   end
 
+  create_table "duplicates", force: true do |t|
+    t.text     "duplicate_msg"
+    t.boolean  "approved"
+    t.integer  "a_user_id"
+    t.integer  "r_user_id"
+    t.integer  "current_question_id"
+    t.integer  "duplicated_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "errors", force: true do |t|
     t.string   "usable_type"
     t.integer  "usable_id"

@@ -6,6 +6,7 @@ class QuestionsController < ApplicationController
 	#Question.all: Sellects all items in the table Question
      #post: All items of the Question table are shown
 	#question#index is rendered
+    @user = User.all
     if params[:exercise_id]
       @questions = Question.where(exercise_id: params[:exercise_id]) 
     else
@@ -25,6 +26,8 @@ class QuestionsController < ApplicationController
       #question#show is rendered
     
     @question = Question.find(params[:id])
+    #@myflag=Request.Form["Flag"]
+    #@question.flags=@myflag
     authorize! :read, @question
     @responses = Response.all.where(question_id: params[:id])
     @response = Response.new
@@ -72,6 +75,7 @@ class QuestionsController < ApplicationController
       flash[:error] = "Error creating your question."
       render 'new'
     end
+    #@flag=Question.new(question_id,)
 
   end
 
@@ -107,7 +111,6 @@ class QuestionsController < ApplicationController
     authorize! :update, @question
 
     @question.assign_attributes(safe_assign)
-
     if @question.save
       flash[:success] = "Question saved!"
       redirect_to question_path
@@ -139,7 +142,6 @@ class QuestionsController < ApplicationController
     else 
       flash[:notice] = "You have already up-voted this question!"
     end
-
    #respond_to do |format|
    # @question.increment!(:up_vote)
     #format.html { redirect_to @question, notice: 'Cool'}
