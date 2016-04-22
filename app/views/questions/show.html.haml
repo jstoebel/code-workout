@@ -34,7 +34,7 @@
   =f.submit 'Submit', url: question_path(@question.id), class: 'btn btn-default'
 
 %h3
-  = "User: #{@question.user_id}"
+  = "User: #{@question.user.first_name} #{@question.user.last_name}"
 %h3
   = "Posted: #{@question.created_at.strftime("%m-%d-%Y")}"
 -if @question.tags != nil
@@ -57,7 +57,7 @@
           %td
             = response.text
           %td
-            = response.user_id
+            = "#{response.user.first_name} #{response.user.last_name}" 
           %td
             = response.created_at.strftime("%m-%d-%Y")
 
