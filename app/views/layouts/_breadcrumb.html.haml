@@ -1,6 +1,7 @@
 %ol.breadcrumb
   %li
     = link_to 'Home', root_path
+  - current_controller = params[:controller]
   - if @workout
     - flag1 = true
     - if @workout.course_offerings.any?
@@ -58,5 +59,15 @@
     - else
       %li.active= @organization.abbreviation
 
+  - elsif @question || @questions
+    %li= link_to 'Q&A forum', questions_path   
+    - if @responses     
+      %li.active= @title
+    - elsif @new
+      %li.active New
+    - elsif @edit
+      %li= link_to @title, question_path
+      %li.active Edit 
+
   - else
-    %li= link_to 'Gym', gym_path
+    %li= link_to 'Gym', gym_path 

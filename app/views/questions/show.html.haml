@@ -1,92 +1,90 @@
 #ajax
-  = render 'layouts/breadcrumb'
-  %body
-    .container
-      .panel.panel-info
-        .panel-heading
-          .row
-            .col-sm-4
-              %td= link_to "Back", questions_path, class: "btn-sm btn-info"
-            .col-sm-8
-              = @question.title
-        .panel-body
-          .row
-            .col-sm-2
-              %button#vote_up.btn.btn-success.glyphicon.glyphicon-thumbs-up{:type => "button"}
-                = button_to '+', up_vote_question_path(@question), method: :post
-                = @question.up_votes.count
-              %button#vote_down.btn.btn-danger.glyphicon.glyphicon-thumbs-down{:type => "button"}
-                = button_to '-', down_vote_question_path(@question), method: :post
-                = @question.down_votes.count
-            .col-sm-6
-              %p= @question.body
-            .col-sm-2                       
-            
-              =@question.flags
+= render partial: 'layouts/breadcrumb'
+= render :partial => 'questions/search'
 
-            .col-sm-2             
-                 
-              =form_for @question, url: question_path(@question.id) do |f|                            
-                
-                =f.select(:flags, options_for_select([['Flag',''],['Duplicate', 'Duplicate'], ['Off Topic', 'Off Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]), {}, {:style => "max-width: 100px;"})
-                
-                =f.submit 'Submit', url: question_path(@question.id), class: 'btn-default'
-          
+%h1
+  =@question.title
+%h3
+  = "Exercise: #{@question.exercise_id}"
 
-          %br/
 
-          .container
-            .row
-              .col-sm-2
-                / Button trigger modal
-                %button.btn.btn-primary.btn-md{"data-target" => "#myModalHorizontal", "data-toggle" => "modal"}
-                  Respond
-                / Modal
-                #myModalHorizontal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-                  .modal-dialog.modal-lg
-                    .modal-content
-                      / Modal Header
-                      .modal-header
-                        %button.close{"data-dismiss" => "modal", :type => "button"}
-                          %span{"aria-hidden" => "true"} ×
-                          %span.sr-only Cancel
-                        %h4#myModalLabel.modal-title
-                          Your Response
-                      / Modal Body
-                      .modal-body
-                        = form_for(@response, url: responses_path) do |f|
-                          %textarea#your-response.form-control{:name => "response[text]", :rows => "10"}
-                          = f.hidden_field(:question_id, :value => @question.id)
-                          / Modal Footer
-                          .modal-footer
-                            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
-                              Cancel
-                            = f.submit "Respond", class: "btn btn-success"
-              .col-sm-2
-                %td= link_to "Edit", edit_question_path(@question), class: "btn btn-md btn-info"
-              .col-sm-1  
-                %td
-                  = form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
-                    = f.submit "Delete", class: "btn btn-sm btn-danger"
+%table
+  %tbody
+    %tr
+      %td
+        %button#vote_up.btn.btn-success.glyphicon.glyphicon-thumbs-up{:type => "button"}
+          = button_to '+', up_vote_question_path(@question), method: :post
+          = @question.up_votes.count
+      %td
+        %button#vote_down.btn.btn-danger.glyphicon.glyphicon-thumbs-down{:type => "button"}
+          = button_to '-', down_vote_question_path(@question), method: :post
+          = @question.down_votes.count
+      %td 	
+        %h1= @question.body
+%table
+  %tbody
+    %tr
+      %td  
+        = link_to "Edit", edit_question_path(@question), class: "btn btn-default"          
+      %td 
+        = form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
+          = f.submit 'Delete', class: "btn btn-default"             
+=form_for @question, url: question_path(@question.id) do |f|                            
+  =f.select(:flags, options_for_select([['Flag',''],['Duplicate', 'Duplicate'], ['Off Topic', 'Off Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]), {}, {:style => "max-width: 100px;"})      
+  =f.submit 'Submit', url: question_path(@question.id), class: 'btn btn-default'
 
-        .panel-footer{:color => "green"}
-          %h4
-            %strong Responses:
-        .container-fluid
-          .row
-            - if @question.tags != nil  
-              %p
-                =@question.tags
-            - if @responses.size == 0
-              %h3 No Responses
-            - else
-              - @responses.each do |response|
-                %tr
-                  %td
-                    = link_to response.text, response
-                  %td
-                    = response.created_at.strftime("%m-%d-%Y")
-                    %br/
-                    %br/
+%h3
+  = "User: #{@question.user.first_name} #{@question.user.last_name}"
+%h3
+  = "Posted: #{@question.created_at.strftime("%m-%d-%Y")}"
+-if @question.tags != nil
+  %h3
+    = "TAGS: #{@question.tags}"
 
-            =render(:partial => 'application/record_error_messages', :locals => {:record => @response})
+
+%h2 Responses:
+- if @responses.size == 0
+  %h3 No Responses
+- else
+  %table.table.table-striped{ style: 'width: auto' }
+    %thead
+      %th Text:
+      %th User:     
+      %th Posted:
+    %tbody
+      - @responses.each do |response|
+        %tr 
+          %td
+            = response.text
+          %td
+            = "#{response.user.first_name} #{response.user.last_name}" 
+          %td
+            = response.created_at.strftime("%m-%d-%Y")
+
+=render(:partial => 'application/record_error_messages', :locals => {:record => @response})
+
+-# Button trigger modal 
+%button.btn.btn-primary.btn-md{"data-target" => "#myModalHorizontal", "data-toggle" => "modal"}
+  Respond
+-# Modal
+#myModalHorizontal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-lg
+    .modal-content
+      -# Modal Header
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+          %span.sr-only
+            Cancel
+        %h4#myModalLabel.modal-title
+          Your Response
+      -# Modal Body
+      .modal-body
+        = form_for(@response, url: responses_path) do |f|
+          %textarea#your-response.form-control{:name => "response[text]", :rows => "10"}
+          = f.hidden_field(:question_id, :value => @question.id)
+          -# Modal Footer
+          .modal-footer
+            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+              Cancel
+            = f.submit "Respond", class: "btn btn-success"

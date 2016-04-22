@@ -6,12 +6,12 @@ class QuestionsController < ApplicationController
 	#Question.all: Sellects all items in the table Question
      #post: All items of the Question table are shown
 	#question#index is rendered
-  @user = User.all
-	if params[:exercise_id]
-		@questions = Question.where(exercise_id: params[:exercise_id]) 
-	else
-		@questions = Question.all
-	end  
+    @user = User.all
+    if params[:exercise_id]
+      @questions = Question.where(exercise_id: params[:exercise_id]) 
+    else
+      @questions = Question.all
+    end  
   end
 
   def search
@@ -31,6 +31,7 @@ class QuestionsController < ApplicationController
     authorize! :read, @question
     @responses = Response.all.where(question_id: params[:id])
     @response = Response.new
+    @title = @question.title.truncate(15)
   end
 
   def new
@@ -43,7 +44,7 @@ class QuestionsController < ApplicationController
     @question = Question.new({
       :exercise_id => params[:exercise_id]
       })
-    authorize! :write, @question
+    @new = true
   end
 
   def create
@@ -54,7 +55,7 @@ class QuestionsController < ApplicationController
       #OR new question is not saved -> render new
     @question = Question.new(safe_assign)
     @question.user_id = current_user.id
-    authorize! :write, @question
+    authorize! :create, @question
 
     if @question.save
       flash[:success] = "Question saved!"
@@ -73,6 +74,8 @@ class QuestionsController < ApplicationController
     #post:
       #edit view is rendered
     @question = Question.find(params[:id])
+    @title = @question.title.truncate(15)
+    @edit = true
     authorize! :edit, @question
   end
 
