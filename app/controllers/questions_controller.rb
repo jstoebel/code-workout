@@ -10,8 +10,9 @@ class QuestionsController < ApplicationController
         @exercises = Exercise.all.where(is_public: true)
         @all_tags = Question.uniq.pluck(:tags)
         @tags = []
-       
-        #SORT THE TAGS BEFORE DISPLAYING ANDDDDDD FILTER WITH AJAX AND TYPING STUFF        
+        @keyword = params[:search]
+        @tag = params[:tag]
+               
         @all_tags.each do |t|
           if t != ""
             @a = t.split('; ')
@@ -30,14 +31,34 @@ class QuestionsController < ApplicationController
         end
 
 	if params[:exercise_id]
-		@questions = Question.where(exercise_id: params[:exercise_id]) 
+          @questions = Question.where(exercise_id: params[:exercise_id])
+          if @tag.present?
+            @questions = @questions.where("tags LIKE '%#{@tag}%'")
+          end
+          if @keyword.present?
+            @questions = @questions.where("title LIKE '%#{@keyword}%' OR body LIKE '%#{@keyword}%'")
+          end
 	else
-		@questions = Question.all
+	  @questions = Question.all
+          if @tag.present?
+            @questions = @questions.where("tags LIKE '%#{@tag}%'")
+          end
+          if @keyword.present?
+            @questions = @questions.where("title LIKE '%#{@keyword}%' OR body LIKE '%#{@keyword}%'")
+          end
 	end  
   end
 
   def search
-    #nothing for now
+    @keyword = params[:subject]
+    @ex = params[:exercise]
+    @tag = params[:tag]
+
+    if @ex.present?
+      redirect_to exercise_questions_path(:exercise_id => @ex, :search => @keyword, :tag => @tag)
+    else
+      redirect_to questions_path(:search => @keyword, :tag => @tag)
+    end
   end
 
   def show
