@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160302160101) do
+ActiveRecord::Schema.define(version: 20160420145516) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -146,6 +146,25 @@ ActiveRecord::Schema.define(version: 20160302160101) do
 
   add_index "courses", ["organization_id"], name: "index_courses_on_organization_id"
   add_index "courses", ["slug"], name: "index_courses_on_slug"
+
+  create_table "down_votes", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "question_id"
+    t.integer  "value"
+  end
+
+  create_table "duplicates", force: true do |t|
+    t.text     "duplicate_msg"
+    t.boolean  "approved"
+    t.integer  "a_user_id"
+    t.integer  "r_user_id"
+    t.integer  "current_question_id"
+    t.integer  "duplicated_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "errors", force: true do |t|
     t.string   "usable_type"
@@ -328,10 +347,16 @@ ActiveRecord::Schema.define(version: 20160302160101) do
     t.string   "tags"
     t.integer  "user_id"
     t.integer  "exercise_id"
+<<<<<<< HEAD
     t.integer  "upvote"
     t.integer  "downvote"
     t.datetime "created_at"
     t.datetime "updated_at"
+=======
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "flags"
+>>>>>>> 7c59fea6f5e31ad45d597e594d7a37445338d1e5
   end
 
   create_table "resource_files", force: true do |t|
@@ -447,10 +472,25 @@ ActiveRecord::Schema.define(version: 20160302160101) do
 
   add_index "test_cases", ["coding_prompt_id"], name: "index_test_cases_on_coding_prompt_id"
 
+  create_table "testings", force: true do |t|
+    t.string   "name"
+    t.string   "desc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "time_zones", force: true do |t|
     t.string   "name"
     t.string   "zone"
     t.string   "display_as"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "up_votes", force: true do |t|
+    t.integer  "value"
+    t.integer  "question_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

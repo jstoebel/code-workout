@@ -145,6 +145,8 @@ class CourseOfferingsController < ApplicationController
 
   # -------------------------------------------------------------
   def generate_gradebook
+    @course_enrolled = CourseEnrollment.where(course_offering: @course_offering).
+                         sort_by{|ce| [ce.user.last_name.to_s.downcase, ce.user.first_name.to_s.downcase, ce.user.email]}
     respond_to do |format|
       format.csv do
         headers['Content-Disposition'] =

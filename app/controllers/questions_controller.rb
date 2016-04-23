@@ -12,7 +12,8 @@ class QuestionsController < ApplicationController
         @tags = []
         @keyword = params[:search]
         @tag = params[:tag]
-               
+        @user = User.all        
+       
         @all_tags.each do |t|
           if t != ""
             @a = t.split('; ')
@@ -46,7 +47,7 @@ class QuestionsController < ApplicationController
           if @keyword.present?
             @questions = @questions.where("title LIKE '%#{@keyword}%' OR body LIKE '%#{@keyword}%'")
           end
-	end  
+	end
   end
 
   def search
@@ -67,10 +68,14 @@ class QuestionsController < ApplicationController
       #params[:id] (optional): The exercise this resqonses should be associated with
     #post: The sellected item of the Question table is shown along with any optional items sellected from the Response table
       #question#show is rendered
+    
     @question = Question.find(params[:id])
+    #@myflag=Request.Form["Flag"]
+    #@question.flags=@myflag
     authorize! :read, @question
     @responses = Response.all.where(question_id: params[:id])
     @response = Response.new
+    @title = @question.title.truncate(15)
   end
 
   def new
@@ -83,7 +88,7 @@ class QuestionsController < ApplicationController
     @question = Question.new({
       :exercise_id => params[:exercise_id]
       })
-    authorize! :create, @question
+    @new = true
   end
 
   def create
@@ -103,6 +108,7 @@ class QuestionsController < ApplicationController
       flash[:error] = "Error creating your question."
       render 'new'
     end
+    #@flag=Question.new(question_id,)
 
   end
 
@@ -112,6 +118,8 @@ class QuestionsController < ApplicationController
     #post:
       #edit view is rendered
     @question = Question.find(params[:id])
+    @title = @question.title.truncate(15)
+    @edit = true
     authorize! :edit, @question
   end
 
@@ -122,12 +130,12 @@ class QuestionsController < ApplicationController
       #the question object is saved -> redirect to index
       #OR new question is not saved -> render edit
     @question = Question.find(params[:id])
-    @question.assign_attributes(safe_assign)
-
     authorize! :update, @question
+
+    @question.assign_attributes(safe_assign)
     if @question.save
       flash[:success] = "Question saved!"
-      redirect_to questions_path
+      redirect_to question_path
     else
       flash[:error] = "Error updating question."
       render 'edit'      
@@ -148,9 +156,38 @@ class QuestionsController < ApplicationController
     flash[:success] = "You have successfully deleted the question"    
   end
 
+  def up_vote
+    @question = Question.find(params[:id])
+
+    if @question.up_votes.create(user_id: current_user.id)
+      redirect_to question_path
+    else 
+      flash[:notice] = "You have already up-voted this question!"
+    end
+   #respond_to do |format|
+   # @question.increment!(:up_vote)
+    #format.html { redirect_to @question, notice: 'Cool'}
+   # format.json{ render :show, status: :created, location: @question } 
+    #format.js
+   #redirect_to question_path
+   # end
+  end
+
+  def down_vote
+    @question=Question.find(params[:id])
+
+    if @question.down_votes.create(user_id: current_user.id)
+      redirect_to question_path
+    else 
+      flash[:notice] = "You have already down-voted this question!"
+    end
+  end
+
   private
   def safe_assign
-    params.require(:question).permit(:title, :body, :tags, :exercise_id)
+
+    params.require(:question).permit(:title, :body, :tags, :exercise_id, :up_vote, :down_vote, :flags)
+
   end
 
 end

@@ -1,25 +1,29 @@
+= render partial: 'layouts/breadcrumb'
 = render :partial => 'questions/search', :locals => {:exercises => @exercises, :tags => @tags}
 
 %h1 List of Questions
 
-=link_to "Add New Question", new_question_path, class: "btn btn-default"
-
 -if @questions.size == 0
-	%em = No Questions Found
+  %em = No Questions Found
 -else
 
-	%table
-		%r
-			%th Title: 
-			%th User:
-			%th Posted:
-		- @questions.each do |question|
-			%tr
-				%td= link_to question.title, question
-				%td= question.user_id
-				%td= question.created_at.strftime("%m-%d-%Y")
-				%td= link_to "Edit", edit_question_path(question), class: "btn btn-default"
-				%td
-					= form_for question, url: question_path(question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
-						= submit_tag('Delete')
-
+  =link_to "Make New Question", new_question_path, class: "btn btn-primary btn-md"
+  %table.table.table-striped{ style: "width: auto"}
+    %thead
+      %th Title: 
+      %th User:
+      %th Posted:
+    %tbody
+      - @questions.each do |question|
+        %tr  
+          %td{ style: 'width: 2'}
+            = link_to question.title, question
+          %td{ style: 'width: 1'}
+            = User.find(question.user_id).first_name
+          %td{ style: 'width: 2'}
+            = question.created_at.strftime("%m-%d-%Y")
+          %td
+            = link_to "Edit", edit_question_path(question), class: "btn btn-default"
+          %td  
+            = form_for question, url: question_path(question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f|
+              = f.submit 'Delete', class: "btn btn-default"

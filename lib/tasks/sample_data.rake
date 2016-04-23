@@ -33,7 +33,7 @@ namespace :db do
     # Create a workout with one exercise, and a second exercise
     FactoryGirl.create :workout_with_exercises
     FactoryGirl.create :coding_exercise, name: 'Factorial 3'
-    FactoryGirl.create_pair :question
+    FactoryGirl.create_pair :question, {:exercise_id => Exercise.first.id, :user_id => User.first.id}
   end
 
   desc "Reset database and then fill it with Summer I 2015 data"

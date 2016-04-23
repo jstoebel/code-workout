@@ -1,0 +1,99 @@
+%html{:lang => "en"}
+  %head
+    %title Bootstrap Case
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+    %link{:href => "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", :rel => "stylesheet"}/
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"}
+    %script{:src => "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"}
+  %body
+    .container
+      .panel.panel-info
+        .panel-heading
+          .row
+            .col-sm-4
+              %td= link_to "Back", questions_path, class: "btn-sm btn-info"
+            .col-sm-8
+              = @question.title
+        .panel-body
+          .row
+            .col-sm-2
+              %button#testBtn.btn.btn-success.glyphicon.glyphicon-thumbs-up{"data-loading-text" => " ... ", :type => "button"}
+                4
+              %button#testBtnDown.btn.btn-success.glyphicon.glyphicon-thumbs-down{"data-loading-text" => " ... ", :type => "button"}
+                4
+
+            .col-sm-6
+              %p= @question.body
+            .col-sm-2
+              =form_for @question do |f|
+                
+                =f.label "Flag"
+                
+                
+                =f.select(:flags, options_for_select([['select one',''],['Duplicate', 'Duplicate'], ['Out of Topic', 'Out of Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]))
+                //%td= link_to  'Submit', question_path(@question.id), class: "btn btn-info"
+                //=f.submit :onchange => "this.form.submit()", url: question_path(@question.id), class: 'btn-default'
+                =f.submit 'Submit', url: question_path(@question.id), class: 'btn-default'
+                //=f.submit 'Submit', class: 'btn-default'
+                //.actions.inline= f.submit 'GO!'
+            .col-sm-2 			            	    
+			    	
+              =@question.flags
+                      
+          .container
+            .row
+              .col-sm-1
+                / Button trigger modal
+                %button.btn.btn-primary.btn-md{"data-target" => "#myModalHorizontal", "data-toggle" => "modal"}
+                  Respond
+                / Modal
+                #myModalHorizontal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                  .modal-dialog
+                    .modal-content
+                      / Modal Header
+                      .modal-header
+                        %button.close{"data-dismiss" => "modal", :type => "button"}
+                          %span{"aria-hidden" => "true"} ×
+                          %span.sr-only Cancel
+                        %h4#myModalLabel.modal-title
+                          Your Response
+                      / Modal Body
+                      .modal-body
+                        %form.form-horizontal{:role => "form"}
+                          %textarea#comment.form-control{:rows => "5"}
+                      / Modal Footer
+                      .modal-footer
+                        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+                          Cancel
+                        %button.btn.btn-primary{:type => "button"}
+                          Submit
+              .col-sm-1
+                %td= link_to "Edit", edit_question_path(@question), class: "btn btn-info"
+                -#%input.btn-info.btn-info{:type => "submit", :value => "Delete"}/
+
+                -#%input.btn.btn-info{:type => "button", :value => "Edit"}/
+              .col-sm-0.25  
+                %td
+                  = form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
+                    = submit_tag('Delete')
+
+        .panel-footer Responses
+        .container-fluid
+          .row
+            - if @question.tags != nil  
+              %p
+                =@question.tags
+            - if @responses.size == 0
+              %h3 No Responses
+            - else
+              - @responses.each do |response|
+                %tr
+                  %td
+                    = link_to response.text, response
+                  %td
+                    = response.user_id
+                  %td
+                    = response.created_at.strftime("%m-%d-%Y") 
+
+            =render(:partial => 'application/record_error_messages', :locals => {:record => @response})

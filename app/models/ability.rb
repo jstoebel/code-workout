@@ -105,6 +105,7 @@ class Ability
           Workout, Exercise, Attempt, ResourceFile]
 
         can [:index], [Workout, Exercise, Attempt, ResourceFile]
+        can :crud, Review 
       end
     end
   end
@@ -168,6 +169,7 @@ class Ability
 #        ((o.opening_date == nil) || (o.opening_date <= now)) &&
 #          o.course_offering.course_enrollments.where(user_id: user.id).any?
       end
+      can [:review], WorkoutOffering, course_offering: {course_enrollments: {user: user, course_role: {can_manage_assignments: true}}}
       can [:practice], WorkoutOffering do |o|
         o.can_be_seen_by? user
 #        now = Time.now
@@ -216,7 +218,7 @@ class Ability
       can :read, Attempt, workout_score:
         { workout_offering:
           { course_offering:
-            { course_enrollment:
+            { course_enrollments:
               { user: user, course_role:
                 { can_manage_assignments: true } } } } }
       can [:create, :read], Attempt, user: user
@@ -238,7 +240,7 @@ class Ability
 
   def process_qa_forum(user)
     can [:read, :write], [Question, Response]
-    can [:upvote, :mark_duplicate], Question
+    can [:up_vote, :down_vote, :mark_duplicate], Question
     can :crud, [Question, Response], user_id: user.id
   end
 

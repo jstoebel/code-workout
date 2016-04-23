@@ -5,7 +5,6 @@ FactoryGirl.define do
     title "Question title"
     body "This is the body of the question \n its just a sample."
     tags "loops; conditionals"
-    exercise
     after(:create) do |q|
       create_pair(:response, question: q)
     end
