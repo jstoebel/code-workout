@@ -1,11 +1,12 @@
 = render partial: 'layouts/breadcrumb'
-= render :partial => 'questions/search'
+= render :partial => 'questions/search', :locals => {:exercises => @exercises, :tags => @tags}
 
 %h1 List of Questions
 
 -if @questions.size == 0
   %em = No Questions Found
 -else
+
   =link_to "Make New Question", new_question_path, class: "btn btn-primary btn-md"
   %table.table.table-striped{ style: "width: auto"}
     %thead
