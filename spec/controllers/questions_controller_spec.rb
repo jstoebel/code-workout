@@ -14,14 +14,6 @@ RSpec.describe QuestionsController, :type => :controller do
     FactoryGirl.create :question
   end
 
-  # describe "a test" do
-
-  #   login_as "instructor"
-  #   it "works!" do
-
-  #   end
-  # end
-
   describe "GET index" do
     ControllerMacros::ALL_ROLES.each do |r|
       context "as #{r}" do
@@ -305,7 +297,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
         it "redirects to index" do
           post_update
-          expect(response).to redirect_to(questions_path)
+          expect(response).to redirect_to(question_path(my_question.id))
         end
 
         it "updates the record" do
@@ -328,11 +320,17 @@ RSpec.describe QuestionsController, :type => :controller do
       context "as #{r}" do
         login_as r
 
-        let(:admin_question) { FactoryGirl.create(:question, :user_id => 1) }
+        let(:new_student) { FactoryGirl.create :confirmed_user, 
+          {:email => "new_student@test.org"} 
+        }
+
+        let(:not_my_question) { FactoryGirl.create(:question, 
+          :user_id => new_student.id) 
+        }
         
         let(:change) { {:title => "new title"} }
-        let(:update_params) { {:id => admin_question.id, 
-            :question => admin_question.attributes.merge(change)}
+        let(:update_params) { {:id => not_my_question.id, 
+            :question => not_my_question.attributes.merge(change)}
           }
 
         subject(:post_update) { post :update, update_params }
