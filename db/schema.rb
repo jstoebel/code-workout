@@ -347,16 +347,11 @@ ActiveRecord::Schema.define(version: 20160420145516) do
     t.string   "tags"
     t.integer  "user_id"
     t.integer  "exercise_id"
-<<<<<<< HEAD
     t.integer  "upvote"
     t.integer  "downvote"
     t.datetime "created_at"
     t.datetime "updated_at"
-=======
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "flags"
->>>>>>> 7c59fea6f5e31ad45d597e594d7a37445338d1e5
   end
 
   create_table "resource_files", force: true do |t|
