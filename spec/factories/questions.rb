@@ -6,7 +6,7 @@ FactoryGirl.define do
     body "This is the body of the question \n its just a sample."
     tags "loops; conditionals"
     after(:create) do |q|
-      create_pair(:response, question: q)
+      create_pair(:response, {question_id: q.id, user_id: q.user_id})
     end
   end
 end
