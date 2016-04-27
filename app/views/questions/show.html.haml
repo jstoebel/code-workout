@@ -3,8 +3,12 @@
 
 %h1
   =@question.title
+
 %h3
-  = "Exercise: #{@question.exercise_id}"
+  - if @question.exercise_id?
+    = "Exercise: #{@question.exercise.name}"
+  - else
+    = "Exercise: No Exercise Specified"
 
 
 %table
