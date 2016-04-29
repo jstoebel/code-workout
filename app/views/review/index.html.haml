@@ -17,5 +17,7 @@
 				%td= User.find(f.user_id).first_name
 				%td= Question.find(f.id).flags
 				%td= f.created_at.strftime("%m-%d-%Y")
-				%td= select_tag(:flags, options_for_select([['Approve', true], ['Dismiss', nil]])) 
+				%td= select_tag(:flags, options_for_select([['Approve', true], ['Dismiss', nil]]))  
+-# KEY: flagging feature for Q&A
+-# The page should show what type of flag the user is looking at. Only adminstrators and instructors should be able to see it. The dropdown menu shold call the appropriate action.
 

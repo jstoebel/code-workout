@@ -31,7 +31,12 @@
         = link_to "Edit", edit_question_path(@question), class: "btn btn-default"          
       %td 
         = form_for @question, url: question_path(@question.id), html: {:onsubmit => "return confirm('Are you sure you want to delete the question?');"}, method: :delete do |f| 
-          = f.submit 'Delete', class: "btn btn-default"             
+          = f.submit 'Delete', class: "btn btn-default"  
+
+-# KEY: flagging feature for Q&A
+-# Clicking duplicate should open a pop up window where a user can provide the url of the question that the current question is the deplicate of, and an optional text box for indicating the reason. The duplicates table should be updated with the current question id, duplicated question id, and the user id. An action should also be included in the questions controller for the flagging button.
+-# Currently, the flagging works for admin user--other users are prevented from performing flagging due to authorization restrictions, which should be resolved in the future.
+
 =form_for @question, url: question_path(@question.id) do |f|                            
   =f.select(:flags, options_for_select([['Flag',''],['Duplicate', 'Duplicate'], ['Off Topic', 'Off Topic'],['Contains inappropriate langauge','Contains inappropriate langauge']]), {}, {:style => "max-width: 100px;"})      
   =f.submit 'Submit', url: question_path(@question.id), class: 'btn btn-default'
